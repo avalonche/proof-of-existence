@@ -1,0 +1,14 @@
+# truffle builds
+./build
+.openzeppelin/.session
+
+# yarn artifacts
+node_modules/
+yarn-error.log
+
+# editor
+.DS_Store
+.vscode
+
+# dotenv environment variables file
+.env

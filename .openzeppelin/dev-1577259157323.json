@@ -1,0 +1,223 @@
+{
+  "contracts": {
+    "DocumentInfo": {
+      "address": "0x97f1F2824e249fB36B935158E059420f52Ca706e",
+      "constructorCode": "608060405262000024620000186200004560201b60201c565b6200004d60201b60201c565b6000600160006101000a81548160ff02191690831515021790555062000272565b600033905090565b62000068816000620000ae60201b620026271790919060201c565b8073ffffffffffffffffffffffffffffffffffffffff167f6719d08c1888103bea251a4ed56406bd0c3e69723c8a1686e017e7bbe159b6f860405160405180910390a250565b620000c082826200019260201b60201c565b1562000134576040517f08c379a000000000000000000000000000000000000000000000000000000000815260040180806020018281038252601f8152602001807f526f6c65733a206163636f756e7420616c72656164792068617320726f6c650081525060200191505060405180910390fd5b60018260000160008373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060006101000a81548160ff0219169083151502179055505050565b60008073ffffffffffffffffffffffffffffffffffffffff168273ffffffffffffffffffffffffffffffffffffffff1614156200021b576040517f08c379a000000000000000000000000000000000000000000000000000000000815260040180806020018281038252602281526020018062002d506022913960400191505060405180910390fd5b8260000160008373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060009054906101000a900460ff16905092915050565b612ace80620002826000396000f3fe",
+      "bodyBytecodeHash": "fca740f75bb7f2cfe3a2494a5f13584c755449b55c679830dd698ec7c60ee729",
+      "localBytecodeHash": "83cd90b643bd196309cebea941c1107ee7c6420fb66a581d83012493307cbd0b",
+      "deployedBytecodeHash": "83cd90b643bd196309cebea941c1107ee7c6420fb66a581d83012493307cbd0b",
+      "types": {
+        "t_struct<Roles.Role>": {
+          "id": "t_struct<Roles.Role>",
+          "kind": "struct",
+          "label": "Roles.Role",
+          "members": [
+            {
+              "label": "bearer",
+              "astId": 32,
+              "type": "t_mapping<t_bool>",
+              "src": "150:32:1"
+            }
+          ]
+        },
+        "t_bool": {
+          "id": "t_bool",
+          "kind": "elementary",
+          "label": "bool"
+        },
+        "t_mapping<t_bool>": {
+          "id": "t_mapping<t_bool>",
+          "valueType": "t_bool",
+          "label": "mapping(key => bool)",
+          "kind": "mapping"
+        },
+        "t_struct<DocumentInfo.DocumentMetadata>": {
+          "id": "t_struct<DocumentInfo.DocumentMetadata>",
+          "kind": "struct",
+          "label": "DocumentInfo.DocumentMetadata",
+          "members": [
+            {
+              "label": "documentId",
+              "astId": 445,
+              "type": "t_bytes32",
+              "src": "826:18:5"
+            },
+            {
+              "label": "title",
+              "astId": 447,
+              "type": "t_string",
+              "src": "854:12:5"
+            },
+            {
+              "label": "tags",
+              "astId": 449,
+              "type": "t_struct<IterableMapping.itmap>",
+              "src": "876:26:5"
+            }
+          ]
+        },
+        "t_bytes32": {
+          "id": "t_bytes32",
+          "kind": "elementary",
+          "label": "bytes32"
+        },
+        "t_string": {
+          "id": "t_string",
+          "kind": "elementary",
+          "label": "string"
+        },
+        "t_struct<IterableMapping.itmap>": {
+          "id": "t_struct<IterableMapping.itmap>",
+          "kind": "struct",
+          "label": "IterableMapping.itmap",
+          "members": [
+            {
+              "label": "data",
+              "astId": 1078,
+              "type": "t_mapping<t_struct<IterableMapping.IndexValue>>",
+              "src": "258:35:8"
+            },
+            {
+              "label": "keys",
+              "astId": 1081,
+              "type": "t_array:dyn<t_bytes32>",
+              "src": "303:14:8"
+            },
+            {
+              "label": "size",
+              "astId": 1083,
+              "type": "t_uint8",
+              "src": "354:10:8"
+            }
+          ]
+        },
+        "t_struct<IterableMapping.IndexValue>": {
+          "id": "t_struct<IterableMapping.IndexValue>",
+          "kind": "struct",
+          "label": "IterableMapping.IndexValue",
+          "members": [
+            {
+              "label": "keyIndex",
+              "astId": 1086,
+              "type": "t_uint256",
+              "src": "397:13:8"
+            },
+            {
+              "label": "value",
+              "astId": 1088,
+              "type": "t_bool",
+              "src": "412:10:8"
+            }
+          ]
+        },
+        "t_uint256": {
+          "id": "t_uint256",
+          "kind": "elementary",
+          "label": "uint256"
+        },
+        "t_mapping<t_struct<IterableMapping.IndexValue>>": {
+          "id": "t_mapping<t_struct<IterableMapping.IndexValue>>",
+          "valueType": "t_struct<IterableMapping.IndexValue>",
+          "label": "mapping(key => IterableMapping.IndexValue)",
+          "kind": "mapping"
+        },
+        "t_array:dyn<t_bytes32>": {
+          "id": "t_array:dyn<t_bytes32>",
+          "valueType": "t_bytes32",
+          "length": "dyn",
+          "kind": "array",
+          "label": "bytes32[]"
+        },
+        "t_uint8": {
+          "id": "t_uint8",
+          "kind": "elementary",
+          "label": "uint8"
+        },
+        "t_array:dyn<t_struct<DocumentInfo.DocumentMetadata>>": {
+          "id": "t_array:dyn<t_struct<DocumentInfo.DocumentMetadata>>",
+          "valueType": "t_struct<DocumentInfo.DocumentMetadata>",
+          "length": "dyn",
+          "kind": "array",
+          "label": "DocumentInfo.DocumentMetadata[]"
+        },
+        "t_mapping<t_array:dyn<t_struct<DocumentInfo.DocumentMetadata>>>": {
+          "id": "t_mapping<t_array:dyn<t_struct<DocumentInfo.DocumentMetadata>>>",
+          "valueType": "t_array:dyn<t_struct<DocumentInfo.DocumentMetadata>>",
+          "label": "mapping(key => DocumentInfo.DocumentMetadata[])",
+          "kind": "mapping"
+        },
+        "t_mapping<t_string>": {
+          "id": "t_mapping<t_string>",
+          "valueType": "t_string",
+          "label": "mapping(key => string)",
+          "kind": "mapping"
+        }
+      },
+      "storage": [
+        {
+          "contract": "PauserRole",
+          "path": "@openzeppelin/contracts/access/roles/PauserRole.sol",
+          "label": "_pausers",
+          "astId": 126,
+          "type": "t_struct<Roles.Role>",
+          "src": "250:27:2"
+        },
+        {
+          "contract": "Pausable",
+          "path": "@openzeppelin/contracts/lifecycle/Pausable.sol",
+          "label": "_paused",
+          "astId": 232,
+          "type": "t_bool",
+          "src": "832:20:3"
+        },
+        {
+          "contract": "DocumentInfo",
+          "path": "contracts/DocumentInfo.sol",
+          "label": "documentsByUploader",
+          "astId": 439,
+          "type": "t_mapping<t_array:dyn<t_struct<DocumentInfo.DocumentMetadata>>>",
+          "src": "582:58:5"
+        },
+        {
+          "contract": "DocumentInfo",
+          "path": "contracts/DocumentInfo.sol",
+          "label": "documentHashById",
+          "astId": 443,
+          "type": "t_mapping<t_string>",
+          "src": "716:43:5"
+        }
+      ],
+      "warnings": {
+        "hasConstructor": false,
+        "hasSelfDestruct": false,
+        "hasDelegateCall": false,
+        "hasInitialValuesInDeclarations": false,
+        "uninitializedBaseContracts": []
+      }
+    }
+  },
+  "solidityLibs": {},
+  "proxies": {
+    "proof-of-existence/DocumentInfo": [
+      {
+        "address": "0x1FFa26F39B59947C3d06554445dAE09AfBD6149A",
+        "version": "1.0.0",
+        "implementation": "0x97f1F2824e249fB36B935158E059420f52Ca706e",
+        "admin": "0x38B2fB2CA8C6456Ba4B7688314FF3090a5e6DD3B",
+        "kind": "Upgradeable"
+      },
+      {
+        "address": "0x592A280E00941e7E01379D1f6FA640A64dFdEd56",
+        "version": "1.0.0",
+        "implementation": "0x97f1F2824e249fB36B935158E059420f52Ca706e",
+        "admin": "0x38B2fB2CA8C6456Ba4B7688314FF3090a5e6DD3B",
+        "kind": "Upgradeable"
+      }
+    ]
+  },
+  "manifestVersion": "2.2",
+  "version": "1.0.0",
+  "proxyAdmin": {
+    "address": "0x38B2fB2CA8C6456Ba4B7688314FF3090a5e6DD3B"
+  }
+}

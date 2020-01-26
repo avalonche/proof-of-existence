@@ -1,0 +1,276 @@
+{
+  "contractName": "ProofOfExistence",
+  "abi": [
+    {
+      "name": "DocumentUploaded",
+      "inputs": [
+        {
+          "type": "string",
+          "name": "ipfsHash",
+          "indexed": false
+        },
+        {
+          "type": "uint256",
+          "name": "blockNumber",
+          "indexed": false
+        },
+        {
+          "type": "uint256",
+          "name": "uploadTime",
+          "indexed": false,
+          "unit": "sec"
+        },
+        {
+          "type": "address",
+          "name": "uploader",
+          "indexed": false
+        }
+      ],
+      "anonymous": false,
+      "type": "event"
+    },
+    {
+      "outputs": [],
+      "inputs": [],
+      "constant": false,
+      "payable": false,
+      "type": "constructor"
+    },
+    {
+      "name": "uploadDocument",
+      "outputs": [],
+      "inputs": [
+        {
+          "type": "string",
+          "name": "_ipfsHash"
+        }
+      ],
+      "constant": false,
+      "payable": false,
+      "type": "function",
+      "gas": 150368
+    },
+    {
+      "name": "numDocuments",
+      "outputs": [
+        {
+          "type": "uint256",
+          "name": "out"
+        }
+      ],
+      "inputs": [],
+      "constant": true,
+      "payable": false,
+      "type": "function",
+      "gas": 581
+    },
+    {
+      "name": "verifyDocument",
+      "outputs": [
+        {
+          "type": "uint256",
+          "name": "out"
+        },
+        {
+          "type": "uint256",
+          "unit": "sec",
+          "name": "out"
+        },
+        {
+          "type": "address",
+          "name": "out"
+        }
+      ],
+      "inputs": [
+        {
+          "type": "string",
+          "name": "ipfsHashToVerify"
+        }
+      ],
+      "constant": true,
+      "payable": false,
+      "type": "function",
+      "gas": 1861
+    },
+    {
+      "name": "isOwner",
+      "outputs": [
+        {
+          "type": "bool",
+          "name": "out"
+        }
+      ],
+      "inputs": [],
+      "constant": true,
+      "payable": false,
+      "type": "function",
+      "gas": 646
+    },
+    {
+      "name": "isActive",
+      "outputs": [
+        {
+          "type": "bool",
+          "name": "out"
+        }
+      ],
+      "inputs": [],
+      "constant": true,
+      "payable": false,
+      "type": "function",
+      "gas": 671
+    },
+    {
+      "name": "toggleContractActive",
+      "outputs": [],
+      "inputs": [],
+      "constant": false,
+      "payable": false,
+      "type": "function",
+      "gas": 35958
+    },
+    {
+      "name": "documents__blockNumber",
+      "outputs": [
+        {
+          "type": "uint256",
+          "name": "out"
+        }
+      ],
+      "inputs": [
+        {
+          "type": "string",
+          "name": "arg0"
+        }
+      ],
+      "constant": true,
+      "payable": false,
+      "type": "function",
+      "gas": 1118
+    },
+    {
+      "name": "documents__uploadTime",
+      "outputs": [
+        {
+          "type": "uint256",
+          "unit": "sec",
+          "name": "out"
+        }
+      ],
+      "inputs": [
+        {
+          "type": "string",
+          "name": "arg0"
+        }
+      ],
+      "constant": true,
+      "payable": false,
+      "type": "function",
+      "gas": 1154
+    },
+    {
+      "name": "documents__uploader",
+      "outputs": [
+        {
+          "type": "address",
+          "name": "out"
+        }
+      ],
+      "inputs": [
+        {
+          "type": "string",
+          "name": "arg0"
+        }
+      ],
+      "constant": true,
+      "payable": false,
+      "type": "function",
+      "gas": 1184
+    }
+  ],
+  "bytecode": "0x740100000000000000000000000000000000000000006020526f7fffffffffffffffffffffffffffffff6040527fffffffffffffffffffffffffffffffff8000000000000000000000000000000060605274012a05f1fffffffffffffffffffffffffdabf41c006080527ffffffffffffffffffffffffed5fa0e000000000000000000000000000000000060a052341561009857600080fd5b33600255600060005560006003556105c456600436101561000d57610513565b600035601c52740100000000000000000000000000000000000000006020526f7fffffffffffffffffffffffffffffff6040527fffffffffffffffffffffffffffffffff8000000000000000000000000000000060605274012a05f1fffffffffffffffffffffffffdabf41c006080527ffffffffffffffffffffffffed5fa0e000000000000000000000000000000000060a05263b7f5576d600051141561027f5734156100ba57600080fd5b60a06004356004016101403760806004356004013511156100da57600080fd5b60206101405112156100eb57600080fd5b60026001610140516101602060e05260c052604060c02060c052602060c02001541561011657600080fd5b7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff6000541061014457600080fd5b6003541561015157600080fd5b4361020052426102205233610240526001610140516101602060e05260c052604060c02060c052602060c020610200518155610220516001820155610240516002820155506000805460018181830110156101ab57600080fd5b80820190509050815550610200516102c052610220516102e0526102405161030052608061026052610260516102a052610140805160200180610260516102a001828460006004600a8704601201f161020357600080fd5b5050610260516102a00151806020610260516102a0010101818260206001820306601f82010390500336823750506020610260516102a0015160206001820306601f8201039050610260510101610260527fc9b04b3609e2dca02afe3361a084da6dbd956d9dd60aedf4571aef68af1a6c0e610260516102a0a1005b6341affd4560005114156102a657341561029857600080fd5b60005460005260206000f350005b63beee5eb760005114156103665734156102bf57600080fd5b60a06004356004016101403760806004356004013511156102df57600080fd5b6102006001610140516101602060e05260c052604060c0208060c052602060c02054825260018160c052602060c0200154826020015260028160c052602060c0200154826040015250506000610240511861033957600080fd5b6060610260526102806102005181526102205181602001526102405181604001525061026051610280f350005b638f32d59b600051141561038f57341561037f57600080fd5b336002541460005260206000f350005b6322f3e2d460005114156103b65734156103a857600080fd5b60035460005260206000f350005b631385d24c60005114156103e65734156103cf57600080fd5b33600254146103dd57600080fd5b60035415600355005b63b325971d60005114156104485734156103ff57600080fd5b60a060043560040161014037608060043560040135111561041f57600080fd5b6001610140516101602060e05260c052604060c02060c052602060c0205460005260206000f350005b63971a3aee60005114156104ad57341561046157600080fd5b60a060043560040161014037608060043560040135111561048157600080fd5b60016001610140516101602060e05260c052604060c02060c052602060c020015460005260206000f350005b63ce70d9ec60005114156105125734156104c657600080fd5b60a06004356004016101403760806004356004013511156104e657600080fd5b60026001610140516101602060e05260c052604060c02060c052602060c020015460005260206000f350005b5b60006000fd5b6100ab6105c4036100ab6000396100ab6105c4036000f3",
+  "deployedBytecode": "0x600436101561000d57610513565b600035601c52740100000000000000000000000000000000000000006020526f7fffffffffffffffffffffffffffffff6040527fffffffffffffffffffffffffffffffff8000000000000000000000000000000060605274012a05f1fffffffffffffffffffffffffdabf41c006080527ffffffffffffffffffffffffed5fa0e000000000000000000000000000000000060a05263b7f5576d600051141561027f5734156100ba57600080fd5b60a06004356004016101403760806004356004013511156100da57600080fd5b60206101405112156100eb57600080fd5b60026001610140516101602060e05260c052604060c02060c052602060c02001541561011657600080fd5b7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff6000541061014457600080fd5b6003541561015157600080fd5b4361020052426102205233610240526001610140516101602060e05260c052604060c02060c052602060c020610200518155610220516001820155610240516002820155506000805460018181830110156101ab57600080fd5b80820190509050815550610200516102c052610220516102e0526102405161030052608061026052610260516102a052610140805160200180610260516102a001828460006004600a8704601201f161020357600080fd5b5050610260516102a00151806020610260516102a0010101818260206001820306601f82010390500336823750506020610260516102a0015160206001820306601f8201039050610260510101610260527fc9b04b3609e2dca02afe3361a084da6dbd956d9dd60aedf4571aef68af1a6c0e610260516102a0a1005b6341affd4560005114156102a657341561029857600080fd5b60005460005260206000f350005b63beee5eb760005114156103665734156102bf57600080fd5b60a06004356004016101403760806004356004013511156102df57600080fd5b6102006001610140516101602060e05260c052604060c0208060c052602060c02054825260018160c052602060c0200154826020015260028160c052602060c0200154826040015250506000610240511861033957600080fd5b6060610260526102806102005181526102205181602001526102405181604001525061026051610280f350005b638f32d59b600051141561038f57341561037f57600080fd5b336002541460005260206000f350005b6322f3e2d460005114156103b65734156103a857600080fd5b60035460005260206000f350005b631385d24c60005114156103e65734156103cf57600080fd5b33600254146103dd57600080fd5b60035415600355005b63b325971d60005114156104485734156103ff57600080fd5b60a060043560040161014037608060043560040135111561041f57600080fd5b6001610140516101602060e05260c052604060c02060c052602060c0205460005260206000f350005b63971a3aee60005114156104ad57341561046157600080fd5b60a060043560040161014037608060043560040135111561048157600080fd5b60016001610140516101602060e05260c052604060c02060c052602060c020015460005260206000f350005b63ce70d9ec60005114156105125734156104c657600080fd5b60a06004356004016101403760806004356004013511156104e657600080fd5b60026001610140516101602060e05260c052604060c02060c052602060c020015460005260206000f350005b5b60006000fd",
+  "source": "# @version 0.1.0b13\n\n# Proof of Existence\n\n# This smart contract indexes the hash of all documents uploaded \n# through this contract which any user can verify its existence \n# and authenticity by looking up the ipfs hash\n\n# Document information\n# Note: Struct and external contract declaractions must come\n# before event, global and function declarations\nstruct Document:\n    blockNumber: uint256\n    uploadTime: timestamp\n    uploader: address\n\n# Events\n# Note: Events must come before global and function definitions\n# Note: Vyper does not allow dynamic arrays, so limit the \n# ipfs hash string to be 128 characters\nDocumentUploaded: event({\n    ipfsHash: string[128],\n    blockNumber: uint256,\n    uploadTime: timestamp,\n    uploader: address\n})\n\n# Keep track of the documents in the contract\ndocumentCount: uint256\n\n# Documents indexed by the ipfs hash (which is longer than 32 bytes)\ndocuments: public(map(string[128], Document))\n\nowner: address\n\n# Circuit breaker\nstopped: bool\n\n@public\ndef __init__():\n    self.owner = msg.sender\n    self.documentCount = 0\n    self.stopped = False\n\n@public\ndef uploadDocument(_ipfsHash: string[128]):\n    \"\"\"\n    @notice Records the timestamp and uploader by the ipfs hash\n    @dev Emits DocumentUploaded event\n    @param The ipfs hash of the document\n    \"\"\"\n    # basic validation for the ipfs hash\n    assert len(_ipfsHash) >= 32\n    # check if the document already exists\n    assert self.documents[_ipfsHash].uploader == ZERO_ADDRESS\n    # check for integer overflow\n    assert self.documentCount < MAX_UINT256\n\n    assert self.stopped == False\n\n    _blockNumber: uint256 = block.number\n    _uploadTime: timestamp = block.timestamp\n    _uploader: address = msg.sender\n    # add document to mapping\n    self.documents[_ipfsHash] = Document({\n        blockNumber: _blockNumber,\n        uploadTime: _uploadTime,\n        uploader: _uploader\n    })\n    self.documentCount += 1\n    log.DocumentUploaded(_ipfsHash, _blockNumber, _uploadTime, _uploader)\n\n@public\n@constant\ndef numDocuments() -> uint256:\n    \"\"\"\n    @notice Returns the number of documents uploaded so far\n    @return The document count\n    \"\"\"\n    return self.documentCount\n\n@public\n@constant\ndef verifyDocument(ipfsHashToVerify: string[128]) -> (uint256, timestamp, address):\n    \"\"\"\n    @notice Anyone with the document can generate the ipfs hash and verify its exsistence by checking if the generated hash matches the uploaded hash\n    @param ipfsHashToVerify The ipfs hash we want to check matches the uploaded document\n    @return Returns the block number, time uploaded and uploader\n    \"\"\"\n    document: Document = self.documents[ipfsHashToVerify]\n    # check document exists\n    assert document.uploader != ZERO_ADDRESS\n\n    return (document.blockNumber, document.uploadTime, document.uploader)\n\n@public\n@constant\ndef isOwner() -> bool:\n    \"\"\"\n    @notice Returns whether the current sender is the owner of this contract\n    @return true if sender is contract owner\n    \"\"\"\n    return self.owner == msg.sender\n\n@public\n@constant\ndef isActive() -> bool:\n    \"\"\"\n    @notice Returns whether the contract is paused by the owner\n    @return true if contract is not paused\n    \"\"\"\n    return self.stopped\n\n\n@public\ndef toggleContractActive():\n    \"\"\"\n    @notice A circuit breaker to pause the contract if necessary\n    @dev Only the contract owner can call this function\n    \"\"\"\n    assert self.owner == msg.sender\n\n    self.stopped = not self.stopped",
+  "sourcePath": "/Users/sarah/proof-of-existence/contracts/ProofOfExistence.vy",
+  "compiler": {
+    "name": "vyper",
+    "version": "0.1.0b14+commit.192fad6"
+  },
+  "networks": {
+    "4": {
+      "events": {
+        "0xc9b04b3609e2dca02afe3361a084da6dbd956d9dd60aedf4571aef68af1a6c0e": {
+          "name": "DocumentUploaded",
+          "inputs": [
+            {
+              "type": "string",
+              "name": "ipfsHash",
+              "indexed": false
+            },
+            {
+              "type": "uint256",
+              "name": "blockNumber",
+              "indexed": false
+            },
+            {
+              "type": "uint256",
+              "name": "uploadTime",
+              "indexed": false,
+              "unit": "sec"
+            },
+            {
+              "type": "address",
+              "name": "uploader",
+              "indexed": false
+            }
+          ],
+          "anonymous": false,
+          "type": "event",
+          "signature": "0xc9b04b3609e2dca02afe3361a084da6dbd956d9dd60aedf4571aef68af1a6c0e"
+        }
+      },
+      "links": {},
+      "address": "0x4Bae726c6BED908AFBdD854106BA5350217184f8",
+      "transactionHash": "0x242c6438f3737ce9e3ffdda2e6d204021bca98eab77acb8e8ae2066f52331259"
+    },
+    "5777": {
+      "events": {
+        "0xc9b04b3609e2dca02afe3361a084da6dbd956d9dd60aedf4571aef68af1a6c0e": {
+          "name": "DocumentUploaded",
+          "inputs": [
+            {
+              "type": "string",
+              "name": "ipfsHash",
+              "indexed": false
+            },
+            {
+              "type": "uint256",
+              "name": "blockNumber",
+              "indexed": false
+            },
+            {
+              "type": "uint256",
+              "name": "uploadTime",
+              "indexed": false,
+              "unit": "sec"
+            },
+            {
+              "type": "address",
+              "name": "uploader",
+              "indexed": false
+            }
+          ],
+          "anonymous": false,
+          "type": "event",
+          "signature": "0xc9b04b3609e2dca02afe3361a084da6dbd956d9dd60aedf4571aef68af1a6c0e"
+        }
+      },
+      "links": {},
+      "address": "0x87d0a1fbBbd5E6C7CBD79BAB97084fE654f5412f",
+      "transactionHash": "0x221f5f4924be36181c9a3bb50c709bff459311135b0cb843ce60a08f98ed284c"
+    }
+  },
+  "schemaVersion": "3.0.19",
+  "updatedAt": "2020-01-25T22:04:49.815Z",
+  "networkType": "ethereum"
+}
