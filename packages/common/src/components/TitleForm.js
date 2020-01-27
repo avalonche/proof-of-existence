@@ -3,7 +3,7 @@ import { Keyboard, KeyboardAvoidingView, StyleSheet } from 'react-native';
 
 import SubmitUpload from './SubmitUpload';
 import SubmitEdit from './SubmitEdit';
-import { Input, Block, Text, Button, Divider } from './shared';
+import { Input, Block, Text, Button } from './shared';
 import { theme } from '../assets/constants';
 
 const TitleForm = (props) => {
@@ -27,7 +27,7 @@ const TitleForm = (props) => {
         if (Object.keys(currentErrors).length === 0) {
             setSubmitted(true);
         }
-        setErrors(titleErrors);
+        setErrors(currentErrors);
     }
 
     function handleCancel() {
@@ -62,7 +62,6 @@ const TitleForm = (props) => {
         submitted && Object.keys(errors).length === 0 ? (
             submitForm()
         ) : (
-            <>
                 <KeyboardAvoidingView style={styles.form} behavior='padding'>
                     <Block flex={-1} padding={theme.sizes.padding}>
                         <Input
@@ -84,9 +83,8 @@ const TitleForm = (props) => {
                             clearButtonMode={'while-editing'}
                         />
                     </Block>
-                </KeyboardAvoidingView>
 
-                <Block padding={[theme.sizes.padding, theme.sizes.padding, 0]}>
+                <Block flex={-1} padding={[theme.sizes.padding, theme.sizes.padding, 0]}>
                     <Button
                         color={'primary'}
                         style={styles.submit}
@@ -101,7 +99,7 @@ const TitleForm = (props) => {
                     </Button>
 
                 </Block>
-            </>
+            </KeyboardAvoidingView>
         )
     );
 }
@@ -111,6 +109,7 @@ export default TitleForm;
 const styles = StyleSheet.create({
     form: {
         flex: 1,
+        justifyContent: 'space-between',
     },
     input: {
         borderRadius: 0,

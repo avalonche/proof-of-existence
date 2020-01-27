@@ -7,8 +7,7 @@
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
-    "lint": "eslint .",
-    "postinstall": "rn-nodeify --install --hack --yarn"
+    "lint": "eslint ."
   },
   "dependencies": {
     "@fortawesome/react-native-fontawesome": "^0.2.0",
@@ -44,6 +43,7 @@
     "react-native-tcp": "^3.2.1",
     "react-native-udp": "^2.1.0",
     "react-native-uport-connect": "^1.1.4",
+    "react-native-video": "^5.0.2",
     "readable-stream": "1.0.33",
     "stream-browserify": "^1.0.0",
     "string_decoder": "~0.10.25",

@@ -155,16 +155,15 @@ const Home = () => {
           shadow
           color={'primary'}
           style={{ borderRadius: height * 0.1 / 2}}
-          onPress={() => selectContent()}
+          onPress={() => selectContent(setPreview, setfileType, setVisible)}
           disabled={searchInFocus}
          >
             <Uploader 
               icon={
                 <FontAwesomeIcon
                   icon={faCamera}
-                  style={{padding: theme.sizes.padding * 0.7}}
+                  style={{padding: theme.sizes.padding * 0.7, fontSize: 80}}
                   color={theme.colors.white}
-                  size={'2x'}
                 />
               }
               setPreview={setPreview}
@@ -178,7 +177,7 @@ const Home = () => {
 
   function renderModalForm() {
     return (
-      <Modal visible={visible}>
+      <Modal visible={visible} animationType='slide'>
         <KeyboardAvoidingView style={styles.modal} behavior="padding">
           <Block padding={[0, theme.sizes.base * 2]}>
             <Block middle>
@@ -202,7 +201,7 @@ const Home = () => {
           <FontAwesomeIcon
           icon={faUserCircle}
           color={theme.colors.gray2}
-          size={20}
+          size={50}
           />
         </Button>
       </Block>

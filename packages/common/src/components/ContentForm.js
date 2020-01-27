@@ -154,7 +154,7 @@ const ContentForm = (props) => {
 
         return {
             label: label,
-            autoCapitalize: 'default',
+            autoCapitalize: 'sentences',
             autoComplete: 'on',
             autoCorrect: true,
             showLimit: true,
@@ -166,7 +166,7 @@ const ContentForm = (props) => {
             placeholder: hasErrors(type) ? null : placeholder,
             placeholderTextColor: theme.colors.gray2,
             errorText: errors[type] && errors[type].message,
-            clearButtonMode: 'white-editing',
+            clearButtonMode: 'while-editing',
         }
     }
 

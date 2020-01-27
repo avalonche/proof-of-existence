@@ -13,6 +13,7 @@ import Layout from './components/Layout';
 
 const App = () => {
   const localSetUp = hasWSProvider();
+
   {
     return (
       <Provider store={store}>

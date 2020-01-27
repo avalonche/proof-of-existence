@@ -88,8 +88,8 @@ export function ContentPreview(props) {
                     <FontAwesome
                         icon={faPlayCircle}
                         color={theme.colors.white}
-                        size='5x'
-                        style={{opacity: playing ? 0.2 : 1}}
+                        size={theme.sizes.base * 4}
+                        style={{opacity: playing ? 0 : 0.8}}
                     />
                 </Button>
             </Block>

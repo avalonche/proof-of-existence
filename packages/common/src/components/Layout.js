@@ -8,10 +8,9 @@ import { faCamera, faUser, faHome, faCheck, faCertificate } from '@fortawesome/f
 
 import TitleForm from './TitleForm'
 import { Uploader, ContentPreview, selectContent } from '../utils/Uploader';
-import { Block, Text, Input, Button, Divider } from './shared';
+import { Block, Text, Input, Button } from './shared';
 import { theme } from '../assets/constants';
 
-// web header:
 const Layout = (props) => {
     const location = useLocation();
     const history = useHistory();
@@ -115,8 +114,8 @@ const Layout = (props) => {
 
     function renderModal() {
         return (
-            <Modal visible={showModal}>
-                <Block padding={theme.sizes.padding / 2} style={styles.upload}>
+            <Modal visible={showModal} animationType='slide'>
+                <Block padding={theme.sizes.padding / 2} flex={-1} style={styles.upload}>
                     <Text bold h2>Upload</Text>
                 </Block>
                 <Block middle center>

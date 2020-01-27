@@ -70,13 +70,15 @@
 	</array>
 	<key>LSApplicationCategoryType</key>
 	<string></string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>$(PRODUCT_NAME) would like to access your photo gallery</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>This app would like to access your photo gallery</string>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>This app would like to use your microphone</string>
-	<key></key>
-	<string></string>
+	<string>$(PRODUCT_NAME) would like to modify your photo gallery</string>
 	<key>NSCameraUsageDescription</key>
-	<string>This app requires access to the camera</string>
+	<string>$(PRODUCT_NAME) requires access to the camera</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>$(PRODUCT_NAME) would like to use your microphone</string>
+	<key>NSFileProviderDomainUsageDescription</key>
+	<string>$(PRODUCT_NAME) would like to access your media library</string>
 </dict>
 </plist>

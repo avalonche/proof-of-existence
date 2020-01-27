@@ -1,6 +1,7 @@
 import "node-libs-react-native/globals";
 import { btoa } from "Base64";
 import nodeUrl from "url";
+import {polyfillGlobal} from 'react-native/Libraries/Utilities/PolyfillFunctions';
 
 global.btoa = btoa;
 global.URL = class URL {
@@ -8,8 +9,6 @@ global.URL = class URL {
     return nodeUrl.parse(url);
   }
 };
-delete global.URLSearchParams;
-import {polyfillGlobal} from 'react-native/Libraries/Utilities/PolyfillFunctions';
 
 polyfillGlobal('URLSearchParams', () => require('whatwg-url').URLSearchParams);
 polyfillGlobal('URL', () => require('whatwg-url').URL);
