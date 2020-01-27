@@ -9,7 +9,6 @@ contract DocumentInfo is Pausable {
     // limit length of tag and title to control gas price of storing metadata
     uint8 public constant MAX_TITLE_LENGTH = 32;
     uint8 public constant MAX_TAG_LENGTH = 32;
-    uint8 public constant MAX_DESCRIPTION_LENGTH = 255;
     // Limit to 10 tags per document to conserve gas
     uint8 public constant MAX_NUM_TAG = 10;
 
@@ -23,14 +22,12 @@ contract DocumentInfo is Pausable {
     struct DocumentMetadata {
         bytes32 documentId;
         string title;
-        string description;
         IterableMapping.itmap tags; // can't check for unique tag in array, use mapping
     }
 
     /* Document Events */
-    event DocumentCreated(bytes32 indexed documentId, string ipfsHash, string title, string description, uint documentIndex);
+    event DocumentCreated(bytes32 indexed documentId, string ipfsHash, string title, uint documentIndex);
     event TitleEdited(string oldTitle, string newTitle, uint timeEdited);
-    event DescriptionEdited(string oldDescription, string newDescription, uint timeEdited);
     event TagAdded(string tag, uint8 tagCount, uint timeAdded);
     event TagRemoved(string tag, uint8 tagCount, uint timeRemoved);
 
@@ -58,23 +55,13 @@ contract DocumentInfo is Pausable {
         );
         _;
     }
-        /**
-     * @notice Check description length constraints
-     */
-    modifier verifyDescriptionLength (string memory _description) {
-        require(
-            0 <= bytes(_description).length && bytes(_description).length <= MAX_DESCRIPTION_LENGTH,
-            'Description must not exceed 255 bytes'
-        );
-        _;
-    }
     /**
      * @notice Check tag length constraints
      */
     modifier verifyTagLength (string memory _tag) {
         require(
             0 < bytes(_tag).length && bytes(_tag).length <= MAX_TAG_LENGTH,
-            'Tag must not be empty or exceed 25 bytes'
+            'Tag must not be empty or exceed 32 bytes'
         );
         _;
     }
@@ -110,12 +97,11 @@ contract DocumentInfo is Pausable {
      * @param _ipfsHash the ipfs hash of the document
      * @param _title the title of the document
      */
-     function createDocument(string memory _ipfsHash, string memory _title, string memory _description)
+     function createDocument(string memory _ipfsHash, string memory _title)
         public
         whenNotPaused()
         verifyIPFSHash(_ipfsHash)
         verifyTitleLength(_title)
-        verifyDescriptionLength(_description)
         {
             bytes32 _documentId = keccak256(abi.encodePacked(_ipfsHash));
             string storage ipfsHash = documentHashById[_documentId];
@@ -124,10 +110,10 @@ contract DocumentInfo is Pausable {
             // adding hash and metadata
             IterableMapping.itmap memory _tags;
             uint documentIndex = getNumberOfDocuments();
-            documentsByUploader[msg.sender].push(DocumentMetadata(_documentId, _title, _description, _tags));
+            documentsByUploader[msg.sender].push(DocumentMetadata(_documentId, _title, _tags));
             documentHashById[_documentId] = _ipfsHash;
 
-            emit DocumentCreated(_documentId, _ipfsHash, _title, _description, documentIndex);
+            emit DocumentCreated(_documentId, _ipfsHash, _title, documentIndex);
         }
 
     /**
@@ -149,18 +135,6 @@ contract DocumentInfo is Pausable {
         
         documentsByUploader[msg.sender][documentIndex].title = _title;
 
-    }
-
-    function editDescription(uint documentIndex, string memory _description)
-        public
-        whenNotPaused()
-        hasUploaded(documentIndex)
-        verifyDescriptionLength(_description)
-    {
-        string storage oldDescription = documentsByUploader[msg.sender][documentIndex].title;
-        emit DescriptionEdited(oldDescription, _description, now);
-
-        documentsByUploader[msg.sender][documentIndex].title = _description;
     }
 
     /**
@@ -236,7 +210,7 @@ contract DocumentInfo is Pausable {
     /**
      * @notice Gets data for a document in the caller's document list
      * @param documentIndex The index of the document in the caller's document list
-     * @return The document id, title, description and ipfs hash the document specified
+     * @return The document id, title, and ipfs hash the document specified
      */
      function getDocument(uint documentIndex)
         public
@@ -245,15 +219,13 @@ contract DocumentInfo is Pausable {
         returns (
             bytes32 _documentId,
             string memory _title,
-            string memory _description,
             string memory _ipfsHash
         )
     {
         bytes32 documentId = documentsByUploader[msg.sender][documentIndex].documentId;
         string storage title = documentsByUploader[msg.sender][documentIndex].title;
-        string storage description = documentsByUploader[msg.sender][documentIndex].description;
         string storage ipfsHash = documentHashById[documentId];
-        return (documentId, title, description, ipfsHash);
+        return (documentId, title, ipfsHash);
     }
 
     /**
