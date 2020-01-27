@@ -6,7 +6,7 @@ import { useHistory } from '../utils/Router';
 import { getCurrentProvider } from '../utils/connector';
 import { txHandler } from '../utils/errorHandler';
 
-import { FontAwesomeIcon } from '../utils/FontAwesome';
+import { FontAwesome } from '../utils/FontAwesome';
 import { faUserCircle, faWallet, faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
 import { faEthereum } from '@fortawesome/free-brands-svg-icons';
 import { Divider, Button, Block, Text, Switch, Spinner } from '../components/shared';

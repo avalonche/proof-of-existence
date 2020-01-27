@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import { StyleSheet } from 'react-native';
-import { FontAwesomeIcon } from '../../utils/FontAwesome';
+import { FontAwesome } from '../../utils/FontAwesome';
 import { faPlayCircle } from '@fortawesome/free-solid-svg-icons';
 
 import { Block, Button } from '../../components/shared';
@@ -11,13 +11,13 @@ const videoRef = React.createRef();
 window.URL = window.URL || window.webkitURL;
 
 export function Uploader(props) {
-    const { icon, setPreview, setFileType, setVisible } = props;
+    const { icon, setPreview, setFileType, setShowModal } = props;
 
     const onChange = e => {
         const files = e.target.files;
 
         if (files && files[0]) {
-            setVisible(true);
+            setShowModal(true);
             setFileType(files[0].type);
             setPreview(window.URL.createObjectURL(files[0]));
         }
@@ -72,7 +72,7 @@ export function ContentPreview(props) {
 
     if (preview && fileType.startsWith('image/')) {
         return (
-            <Block card shadow style={props.style}>
+            <Block card style={props.style} padding={theme.sizes.padding / 2}>
                 <img src={preview} style={previewStyle} onLoad={() => cleanReference()}/>
             </Block>
         );
@@ -80,16 +80,16 @@ export function ContentPreview(props) {
 
     if (preview && fileType.startsWith('video/')) {
         return (
-            <Block card shadow middle style={props.style}>
+            <Block card middle style={props.style} padding={theme.sizes.padding / 2}>
                 <video src={preview} ref={videoRef} style={previewStyle} onLoad={() => cleanReference()}>
                     No Video Preview Available
                 </video>
                 <Button style={styles.button} onPress={playPause}>
-                    <FontAwesomeIcon
+                    <FontAwesome
                         icon={faPlayCircle}
-                        color={theme.colors.gray2}
+                        color={theme.colors.white}
                         size='5x'
-                        style={{opacity: playing ? 0 : 1}}
+                        style={{opacity: playing ? 0.2 : 1}}
                     />
                 </Button>
             </Block>

@@ -1,1 +1,1 @@
-export { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
+export { FontAwesomeIcon as FontAwesome } from '@fortawesome/react-native-fontawesome'

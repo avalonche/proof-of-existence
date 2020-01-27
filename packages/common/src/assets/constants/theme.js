@@ -9,7 +9,7 @@ const colors = {
   gray: "#9DA3B4",
   gray2: "#C5CCD6",
   warning: "#FF9900",
-  border: "rgba(28, 32, 34, 0.1)",
+  border: "DBDBDB",
   background: "#FBFBFB",
   overlay: "rgba(28, 32, 34, 0.5)",
 };

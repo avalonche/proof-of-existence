@@ -2,10 +2,13 @@ import React, { useState } from 'react';
 import { Platform, StyleSheet, Animated } from 'react-native';
 import { useLocation, useHistory } from '../utils/Router';
 
-import { FontAwesomeIcon } from '../utils/FontAwesome';
+import { Modal } from '../utils/Modal';
+import { FontAwesome } from '../utils/FontAwesome';
 import { faCamera, faUser, faHome, faCheck, faCertificate } from '@fortawesome/free-solid-svg-icons';
 
-import { Block, Input, Button } from './shared';
+import TitleForm from './TitleForm'
+import { Uploader, ContentPreview, selectContent } from '../utils/Uploader';
+import { Block, Text, Input, Button, Divider } from './shared';
 import { theme } from '../assets/constants';
 
 // web header:
@@ -13,65 +16,68 @@ const Layout = (props) => {
     const location = useLocation();
     const history = useHistory();
 
-    const [ searchString, setSearchString ] = useState('');
-    const searchBar = new Animated.Value(0.3);
-    const page = new Animated.Value(1);
+    const [ preview, setPreview ] = useState('');
+    const [ fileType, setFileType ] = useState('')
+    const [ showModal, setShowModal ] = useState(false);
+
+    function renderCamera() {
+        return (
+            <Button onPress={() => selectContent(setPreview, setFileType, setShowModal)}>
+                <Uploader
+                    icon={
+                        <FontAwesome
+                            icon={faCamera}
+                            color={theme.colors.gray2}
+                            style={{ marginRight: theme.sizes.padding }}
+                            size={theme.sizes.h2}
+                        />
+                    }
+                    setPreview={setPreview}
+                    setFileType={setFileType}
+                    setShowModal={setShowModal}
+                />
+            </Button>
+        )
+    }
 
     function renderIcons() {
-        const iconNames = ['home', 'camera', 'verify', 'account'];
-        const icons = { home: faHome, camera: faCamera, verify: faCheck, account: faUser };
+        const iconNames = ['home', 'verify', 'account'];
+        const icons = { home: faHome, verify: faCheck, account: faUser };
         const currentPath = (path) => path === location.pathname.replace('/', '');
 
         return iconNames.map((iconName) => (
-            <FontAwesomeIcon
-                icon={icons[iconName]}
-                color={currentPath(iconName) ? theme.colors.black : theme.colors.gray2}
-                size={'lg'}
-                style={{ marginRight: theme.sizes.padding }}
-            />
+            <Button onPress={() => history.push(`/${iconName}`)}>
+                <FontAwesome
+                    icon={icons[iconName]}
+                    color={currentPath(iconName) ? theme.colors.black : theme.colors.gray2}
+                    style={{ marginRight: theme.sizes.padding }}
+                    size={theme.sizes.h2}
+                />
+            </Button>
         ));
     }
 
-    function renderHeader() {
-        const icons = renderIcons();
-        return (
-            <Block center row flex={-1} padding={theme.sizes.base} style={styles.header} space='between'>
-                <Block row flex={-1} style={{ paddingRight: theme.sizes.padding }}>
-                    <Button onPress={history.push('/home')}>
-                        {icons[0]}
-                    </Button>
-                </Block>
-                {renderVerify()}
-            </Block>
-        );
-    }
+    const [ hashString, setHashString ] = useState('');
+    const searchBar = new Animated.Value(0.3);
 
     function handleSearchFocus(status) {
-        Animated.parallel([
-            Animated.timing(
-                searchBar,
-                {
-                    toValue: status ? 1 : 0.3, // status === true, increase flex size
-                    duration: 150, // ms
-                }),
-            Animated.timing(
-                page,
-                {
-                    toValue: status ? 1 : 0,
-                    duration: 150,
-                })
-        ]).start();
+        Animated.timing(
+            searchBar,
+            {
+                toValue: status ? 1 : 0.3, // status === true, increase flex size
+                duration: 150, // ms
+            }).start();
     }
 
-    function handleSearchSubmit(searchString) {
+    function handleSearchSubmit(hashString) {
         history.push({
             pathname: `/verify`,
-            search: `?${searchString}`
+            search: `?${hashString}`
         });
     }
 
     function renderVerify() {
-        const isEditing = searchBar && searchString;
+        const isEditing = searchBar && hashString;
 
         return (
             <Block animated middle flex={searchBar} style={styles.verify}>
@@ -81,21 +87,21 @@ const Layout = (props) => {
                     style={styles.verifyInput}
                     onFocus={() => handleSearchFocus(true)}
                     onBlur={() => handleSearchFocus(false)}
-                    onChangeText={text => setSearchString(text)}
-                    value={searchString}
+                    onChangeText={text => setHashString(text)}
+                    value={hashString}
                     clearButtonMode="while-editing"
                     returnKeyType="verify"
-                    onSubmitEditing={() => handleSearchSubmit(searchString)}
-                    onRightPress={() => isEditing ? handleSearchSubmit(searchString) : null}
+                    onSubmitEditing={() => handleSearchSubmit(hashString)}
+                    onRightPress={() => isEditing ? handleSearchSubmit(hashString) : null}
                     rightStyle={styles.verifyRight}
                     rightLabel={
                         <Block middle center style={styles.verifyIcon}>
-                            <FontAwesomeIcon
+                            <FontAwesome
                                 icon={faCertificate}
                                 color={theme.colors.gray2}
                                 style={{ fontSize: theme.sizes.base * 1.2 }}
                             />
-                            <FontAwesomeIcon
+                            <FontAwesome
                                 icon={faCheck}
                                 style={{ position: 'absolute', fontSize: theme.sizes.base * 0.6 }}
                                 color={theme.colors.white}
@@ -107,17 +113,59 @@ const Layout = (props) => {
         )
     }
 
-    return (
-        Platform.OS === 'web' ? (
-            <Block style={{minWidth: theme.sizes.minWidth * 2}}>
-                {renderHeader()}
-                {props.children}
+    function renderModal() {
+        return (
+            <Modal visible={showModal}>
+                <Block padding={theme.sizes.padding / 2} style={styles.upload}>
+                    <Text bold h2>Upload</Text>
+                </Block>
+                <Block middle center>
+                    <ContentPreview preview={preview} fileType={fileType} />
+                </Block>
+                <TitleForm setShowModal={setShowModal} />
+            </Modal>
+        );
+    }
+
+    const icons = renderIcons();
+    const home = icons[0];
+    const verify = icons[1];
+    const account = icons[2];
+    const camera = renderCamera();
+
+    function renderHeader() {
+        return (
+            <Block center row flex={-1} padding={theme.sizes.padding / 2} style={styles.header} space='between'>
+                <Block row middle center flex={-1} style={{ paddingRight: theme.sizes.padding }}>
+                    {home}
+                    {camera}
+                    {account}
+                </Block>
+                {renderVerify()}
             </Block>
-        ) : (
-            <Block>
-            {/* {renderFooter()} */}
+        );
+    }
+
+    function renderFooter() {
+        return (
+            <Block space='between'>
+                {home}
+                {camera}
+                {verify}
+                {account}
             </Block>
         )
+    }
+
+    return (
+        <Block style={{ minWidth: theme.sizes.minWidth * 2 }}>
+            {Platform.OS === 'web' ? renderHeader() : null}
+            <Block color={theme.colors.background}>
+                {renderModal()}
+                {props.children}
+            </Block>
+            {Platform.OS !== 'web' ? renderFooter() : null}
+        </Block>
     )
 }
 
@@ -150,5 +198,9 @@ const styles = StyleSheet.create({
     verifyIcon: {
         position: 'absolute',
         right: theme.sizes.base / 1.333,
+    },
+    upload: {
+        borderBottomWidth: StyleSheet.hairlineWidth,
+        borderBottomColor: theme.colors.gray2,
     },
 });

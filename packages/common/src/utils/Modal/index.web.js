@@ -14,6 +14,10 @@ function Modal({visible, children, ...props}) {
             style={{
                 overlay: {
                     backgroundColor: theme.colors.overlay
+                },
+                content: {
+                    padding: 0,
+                    border: 'none',
                 }
             }}
             {...props}
