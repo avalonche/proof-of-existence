@@ -7,7 +7,7 @@ import { Router } from './utils/Router';
 import { hasWSProvider } from './utils/connector';
 import store from './redux/store';
 
-import { Login } from './layout';
+// import { Login } from './layout';
 
 import Layout from './components/Layout';
 
@@ -17,7 +17,8 @@ const App = () => {
     return (
       <Provider store={store}>
         <Router> 
-          <Login local={localSetUp}/>
+          {/* <Login local={localSetUp}/> */}
+          <Layout/>
         </Router>
         <NotificationProvider/>
       </Provider>

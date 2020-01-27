@@ -1,5 +1,5 @@
 import configureUportConnect, { isUportAppInstalled } from 'react-native-uport-connect';
-import { Alert, AsyncStorage } from 'react-native';
+import { Alert } from 'react-native';
 
 import config from './config';
 
@@ -19,10 +19,5 @@ export const checkInstalled = () => {
     if (!isInstalled) {
       Alert.alert('uPort app not installed');
     }
-
-    AsyncStorage.getItem('uportState').then(json => {
-      const uportState = JSON.parse(json);
-      UportConnect.setState(uportState);
-    })
   });
 }

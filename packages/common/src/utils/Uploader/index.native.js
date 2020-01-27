@@ -33,7 +33,7 @@ export function ContentPreview() {
 }
 export function Uploader({icon}) {
     return (
-      <Block>
+      <Block middle>
         {icon}
       </Block>  
     );
