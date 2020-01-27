@@ -1,7 +1,7 @@
 import Web3 from 'web3';
-import UportConnect from './UportConnect';
+import UportConnect, { checkInstalled } from './UportConnect';
 import drizzleOptions, { deployConfig } from '../config';
-import { checkInstalled } from './UportConnect/index.native';
+import { alert } from './Alert';
 
 let web3;
 
@@ -19,9 +19,11 @@ function browserLogin() {
         // drizzle will configure the rest
         return true;
     }
-    // // Non-dapp browser
-    // Alert.alert(
-    //     'No Web3 browser provider detected. Please try another login method');        
+    // Non-dapp browser
+    alert({
+        content: 'No Web3 browser provider detected. Please try another login method',
+        duration: 3500
+    });        
 }
 
 function uportLogin() {

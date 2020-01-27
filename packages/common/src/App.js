@@ -7,24 +7,19 @@ import { Router } from './utils/Router';
 import { hasWSProvider } from './utils/connector';
 import store from './redux/store';
 
-// import { Login } from './layout';
-
-import Layout from './components/Layout';
+import { Login } from './layout';
 
 const App = () => {
   const localSetUp = hasWSProvider();
-
-  {
-    return (
-      <Provider store={store}>
-        <Router> 
-          {/* <Login local={localSetUp}/> */}
-          <Layout/>
-        </Router>
-        <NotificationProvider/>
-      </Provider>
-    );
-  }
+  
+  return (
+    <Provider store={store}>
+      <Router> 
+        <Login local={localSetUp}/>
+      </Router>
+      <NotificationProvider/>
+    </Provider>
+  );
 }
 
 export default App;

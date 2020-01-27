@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
-import { Platform, StyleSheet, Animated } from 'react-native';
+import { Platform, StyleSheet } from 'react-native';
 import { useLocation, useHistory } from '../utils/Router';
 
 import { Modal } from '../utils/Modal';
 import { FontAwesome } from '../utils/FontAwesome';
-import { faCamera, faUser, faHome, faCheck, faCertificate } from '@fortawesome/free-solid-svg-icons';
+import { faCamera, faUser, faHome, faCheck } from '@fortawesome/free-solid-svg-icons';
 
-import TitleForm from './TitleForm'
+import TitleForm from './TitleForm';
+import VerifyBar from './VerifyBar';
 import { Uploader, ContentPreview, selectContent } from '../utils/Uploader';
-import { Block, Text, Input, Button } from './shared';
+import { Block, Text, Button } from './shared';
 import { theme } from '../assets/constants';
 
 const Layout = (props) => {
@@ -56,62 +57,6 @@ const Layout = (props) => {
         ));
     }
 
-    const [ hashString, setHashString ] = useState('');
-    const searchBar = new Animated.Value(0.3);
-
-    function handleSearchFocus(status) {
-        Animated.timing(
-            searchBar,
-            {
-                toValue: status ? 1 : 0.3, // status === true, increase flex size
-                duration: 150, // ms
-            }).start();
-    }
-
-    function handleSearchSubmit(hashString) {
-        history.push({
-            pathname: `/verify`,
-            search: `?${hashString}`
-        });
-    }
-
-    function renderVerify() {
-        const isEditing = searchBar && hashString;
-
-        return (
-            <Block animated middle flex={searchBar} style={styles.verify}>
-                <Input
-                    placeholder="Verify Hash..."
-                    placeholderTextColor={theme.colors.gray2}
-                    style={styles.verifyInput}
-                    onFocus={() => handleSearchFocus(true)}
-                    onBlur={() => handleSearchFocus(false)}
-                    onChangeText={text => setHashString(text)}
-                    value={hashString}
-                    clearButtonMode="while-editing"
-                    returnKeyType="verify"
-                    onSubmitEditing={() => handleSearchSubmit(hashString)}
-                    onRightPress={() => isEditing ? handleSearchSubmit(hashString) : null}
-                    rightStyle={styles.verifyRight}
-                    rightLabel={
-                        <Block middle center style={styles.verifyIcon}>
-                            <FontAwesome
-                                icon={faCertificate}
-                                color={theme.colors.gray2}
-                                style={{ fontSize: theme.sizes.base * 1.2 }}
-                            />
-                            <FontAwesome
-                                icon={faCheck}
-                                style={{ position: 'absolute', fontSize: theme.sizes.base * 0.6 }}
-                                color={theme.colors.white}
-                            />
-                        </Block>
-                    }
-                />
-            </Block>
-        )
-    }
-
     function renderModal() {
         return (
             <Modal visible={showModal} animationType='slide'>
@@ -140,7 +85,7 @@ const Layout = (props) => {
                     {camera}
                     {account}
                 </Block>
-                {renderVerify()}
+                <VerifyBar/>
             </Block>
         );
     }
@@ -180,28 +125,6 @@ const styles = StyleSheet.create({
         borderTopColor: theme.colors.gray2,
         borderTopWidth: StyleSheet.hairlineWidth,
         paddingHorizontal: theme.sizes.padding,
-    },
-    verify: {
-        minWidth: theme.sizes.minWidth / 1.5,
-        justifyContent: 'flex-end',
-    },
-    verifyInput: {
-        fontSize: theme.sizes.caption,
-        height: theme.sizes.base * 2,
-        backgroundColor: 'rgba(142, 142, 147, 0.06)',
-        borderColor: 'rgba(142, 142, 147, 0.06)',
-        paddingLeft: theme.sizes.base / 1.333,
-        paddingRight: theme.sizes.base * 1.5,
-        margin: 0,
-    },
-    verifyRight: {
-        top: 0,
-        marginVertical: 0,
-        backgroundColor: 'transparent'
-    },
-    verifyIcon: {
-        position: 'absolute',
-        right: theme.sizes.base / 1.333,
     },
     upload: {
         borderBottomWidth: StyleSheet.hairlineWidth,
