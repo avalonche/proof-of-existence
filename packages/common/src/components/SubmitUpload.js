@@ -11,7 +11,7 @@ import { Spinner } from './shared';
 const SubmitUpload = (props) => {
     const { useCacheSend } = drizzleReactHooks.useDrizzle();
 
-    const { title, description, tags, setErrors, txCallback, setTxCallback } = props;
+    const { title, setErrors, txCallback, setTxCallback } = props;
     const [ ipfsHash, setIpfsHash ] = useState('');
 
     const [ status, setStatus ] = useState('');
@@ -54,7 +54,7 @@ const SubmitUpload = (props) => {
             }
 
             if (!txCallback.info) {
-                uploadInfo.send(ipfsHash, title, description, {gas: DEFAULT_GAS});
+                uploadInfo.send(ipfsHash, title, {gas: DEFAULT_GAS});
             }
         }
     }, [ipfsHash]);
@@ -62,12 +62,15 @@ const SubmitUpload = (props) => {
     const hashTXObjects = uploadHash.TXObjects;
     const infoTXObjects = uploadInfo.TXObjects;
 
-    const hashStatus = hashTXObjects && hashTXObjects[0] && hashTXObjects[0].status;
-    const infoStatus = infoTXObjects && infoTXObjects[0] && infoTXObjects[0].status;
+    console.log(hashTXObjects, infoTXObjects);
+    console.log(status);
+
+    const hashStatus = hashTXObjects && hashTXObjects[hashTXObjects.length - 1] && hashTXObjects[hashTXObjects.length - 1].status;
+    const infoStatus = infoTXObjects && infoTXObjects[infoTXObjects.length - 1] && infoTXObjects[infoTXObjects.length - 1].status;
 
     useEffect(() => {
-        const hashTx = txHandler('hash', hashTXObjects);
-        const infoTx = txHandler('info', infoTXObjects);
+        const hashTx = txHandler('hash', hashTXObjects, hashTXObjects.length - 1);
+        const infoTx = txHandler('info', infoTXObjects, infoTXObjects.length - 1);
 
         const txStatus = {
             ...hashTx.txInfo,
@@ -89,46 +92,11 @@ const SubmitUpload = (props) => {
         setErrors(errors);
     }, [hashStatus, infoStatus]);
 
-    const addTag = useCacheSend('DocumentInfo', 'addTag');
-
     useEffect(() => {
         if (txCallback.info && txCallback.hash) {
-            tags.forEach((tag) => {
-                if (!txCallback.tags || !txCallback.tags[tag]) {
-                    addTag.send(txCallback.info.id, tag);
-                }
-            });
+            history.push(`content/${txCallback.info.id + 1}`);
         }
-    }, [txCallback]);
-
-    const addTagTx = addTag.TXObjects
-
-    useEffect(() => {
-        if (addTagTx && addTagTx.length === tags.length) {
-            let txFinished = true;
-            addTagTx.forEach(tag => tag ? null : txFinished = false)
-
-            if (txFinished) {
-                const tagsTxInfo = tags.reduce(
-                    (tagObj, tag, i) => (tagObj[tag] = txHandler(tag, addTagTx, i).txInfo[tag], tagObj), {}
-                );
-
-                const getTagErrors = () => {
-                    for (let i = 0; i < tags.length; i++) {
-                        const errors = txHandler(tags[i], addTagTx, i).errors[tags[i]];
-                        if (errors.message) {
-                            return errors;
-                        }
-                    }
-                }
-                const tagErrors = getTagErrors();
-
-                Object.keys(tagsTxInfo).length !== 0 ? setTxCallback({...txCallback, tags: tagsTxInfo}): null;
-                tagErrors ? setErrors({...txCallback, tags: tagErrors}) : null;
-                // history.push(`/content/${txCallback.info.id + 1}`);
-            }
-        }
-    }, [addTagTx.join(',')]);
+    }, [txCallback])
 
     if (status === 'uploading') {
         return (
@@ -141,7 +109,7 @@ const SubmitUpload = (props) => {
     }
 
     return (
-        <Spinner/>
+        <Spinner color={'gray'}/>
     );
 }
 

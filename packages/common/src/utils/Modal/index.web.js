@@ -6,7 +6,7 @@ import { theme } from '../../assets/constants';
 
 ReactModal.setAppElement('#root');
 
-function Modal({visible, children, ...props}) {
+function Modal({visible, children, style, ...props}) {
     return (
         <ReactModal
             isOpen={visible}
@@ -18,7 +18,8 @@ function Modal({visible, children, ...props}) {
                 content: {
                     padding: 0,
                     border: 'none',
-                }
+                },
+                ...style,
             }}
             {...props}
         >

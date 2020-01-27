@@ -23,11 +23,10 @@ const ipfsHashErrors = [
     'The length of your IPFS hash is invalid'
 ]
 // revert, out of gas, block gas limit reached
-
+// need to retrive error message
 function handleErrorMessage(message) {
     const reason = message.split(errorString)[1];
 
-    console.log(message);
     switch(reason) {
         case 'revert':
             break;
@@ -40,16 +39,13 @@ export function txHandler(key, TXObject, index = 0) {
     if (TXObject) {
         const tx = TXObject[index];
         const txStatus = tx && tx.status;
-        console.log(tx)
-        console.log(txStatus)
 
         switch(txStatus) {
             case 'success':
                 txInfo[key] = { txHash: tx.receipt.transactionHash };
                 break;
             case 'error':
-                errors[key] = tx.error;
-                console.log(tx.error);
+                errors[key] = tx.error.message;
                 break;
         }
     }

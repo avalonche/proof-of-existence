@@ -121,6 +121,8 @@ const styles = StyleSheet.create({
         maxWidth: theme.sizes.maxWidth,
         minWidth: theme.sizes.minWidth,
         height: theme.sizes.base * 2.5,
+        width: '100%',
+        alignSelf: 'center',
         flex: -1,
     },
     hasErrors: {

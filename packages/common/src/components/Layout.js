@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Platform, StyleSheet } from 'react-native';
 import { useLocation, useHistory } from '../utils/Router';
 
@@ -8,7 +8,7 @@ import { faCamera, faUser, faHome, faCheck } from '@fortawesome/free-solid-svg-i
 
 import TitleForm from './TitleForm';
 import VerifyBar from './VerifyBar';
-import { Uploader, ContentPreview, selectContent } from '../utils/Uploader';
+import { Uploader, ContentPreview, selectContent, clearPreview } from '../utils/Uploader';
 import { Block, Text, Button } from './shared';
 import { theme } from '../assets/constants';
 
@@ -19,6 +19,8 @@ const Layout = (props) => {
     const [ preview, setPreview ] = useState('');
     const [ fileType, setFileType ] = useState('')
     const [ showModal, setShowModal ] = useState(false);
+
+    useEffect(() => showModal ? undefined : clearPreview(), [showModal]);
 
     function renderCamera() {
         return (

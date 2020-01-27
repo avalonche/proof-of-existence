@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet, Image } from 'react-native';
 import { drizzleReactHooks } from '@drizzle/react-plugin';
 
-import { FontAwesomeIcon } from '../utils/FontAwesome';
+import { FontAwesome } from '../utils/FontAwesome';
 import { faCheckCircle, faExclamationCircle, faCheck, faCertificate, faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import { useLocation, useHistory } from '../utils/Router';
 
@@ -31,7 +31,7 @@ function Verify() {
         return (
             <Block row flex={-1} style={{paddingLeft: theme.sizes.padding / 2}}>
                 <Button flex={-1} onPress={() => history.push('/home')}>
-                    <FontAwesomeIcon
+                    <FontAwesome
                         icon={faChevronLeft}
                         color={theme.colors.gray2}
                         size='1x'
@@ -57,7 +57,7 @@ function Verify() {
         // null means transaction has reverted,hash not stored in contract
         return proof == null ? (
             <Block middle center style={styles.container}>
-                <FontAwesomeIcon
+                <FontAwesome
                     icon={faExclamationCircle}
                     color={theme.colors.gray2}
                     size={'5x'}
@@ -71,7 +71,7 @@ function Verify() {
             </Block>
         ) : (
             <Block middle center style={styles.container}>
-                <FontAwesomeIcon
+                <FontAwesome
                     icon={faCheckCircle}
                     color={theme.colors.primary}
                     size={'5x'}

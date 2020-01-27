@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, ScrollView } from 'react-native';
 import { drizzleReactHooks } from '@drizzle/react-plugin';
-import { useHistory } from '../utils/Router';
 
 import { getCurrentProvider } from '../utils/connector';
 import { txHandler } from '../utils/errorHandler';
 
 import { FontAwesome } from '../utils/FontAwesome';
-import { faUserCircle, faWallet, faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
+import { faWallet, faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
 import { faEthereum } from '@fortawesome/free-brands-svg-icons';
-import { Divider, Button, Block, Text, Switch, Spinner } from '../components/shared';
-import Copy from '../components/Copy';
+
+import EmergencyDialog from '../components/EmergencyDialog';
+import { Modal } from '../utils/Modal';
+import { alert } from '../utils/Alert';
+import { Divider, Button, Block, Text, Switch, Spinner, Copy } from '../components/shared';
 import { theme } from '../assets/constants';
 
 export default function Account() {
@@ -26,9 +28,10 @@ export default function Account() {
     const unpause = useCacheSend('DocumentInfo', 'unpause');
 
     const web3 = getCurrentProvider();
-    const history = useHistory()
 
     const [ paused, setPaused ] = useState(false);
+    const [ showEmergencyDialog, setShowEmergencyDialog ] = useState(false);
+    const [ loading, setLoading ] = useState(false);
 
     useEffect(() => {
       if (typeof isEmergency !== 'undefined') {
@@ -37,40 +40,35 @@ export default function Account() {
     }, [isEmergency]);
 
     const pauseTx = pause.TXObjects;
-    const unpauseTx = unpause.TxObjects;
+    const unpauseTx = unpause.TXObjects;
 
-    const pauseStatus = pauseTx && pauseTx[0] && pauseTx[0].status;
-    const unpauseStatus = unpauseTx && unpauseTx[0] && unpauseTx[0].status;
+    // get latest transaction
+    const pauseStatus = pauseTx && pauseTx[pauseTx.length -1] && pauseTx[pauseTx.length -1].status;
+    const unpauseStatus = unpauseTx && unpauseTx[unpauseTx.length -1] && unpauseTx[unpauseTx.length -1].status;
 
-    // confirmation of successful pause / unpause
+    // confirmation of successful pause / unpause 
     useEffect(() => {
-      const { error } = txHandler('pause', pauseTx);
-      // error.message ? 
+      const { errors } = txHandler('pause', pauseTx);
+      // alert
+      errors.pause ? alert({content: 'Error setting contract in emergency'}) : setPaused(true);
+      setLoading(false);
     }, [pauseStatus]);
 
     useEffect(() => {
-      const { error } = txHandler('unpause', pauseTx);
-      // error.message ?
+      const { errors } = txHandler('unpause', unpauseTx);
+      // alert
+      errors.unpause ? alert({content: 'Error unsetting contract in emergency'}) : setPaused(false);
+      setLoading(false);
     }, [unpauseStatus]);
 
     function toggleEmergency(value) {
       // alert user: sure to continue?
-      value ? pause.send() : unpause.send();
-      setPaused(value)
-    }
-
-    function renderHeader() {
-      return (
-        <Block flex={false} style={styles.header}>
-          <Button flex={false} onPress={() => history.push('/home')}>
-            <FontAwesomeIcon
-            icon={faUserCircle}
-            color={theme.colors.gray2}
-            size={'2x'}
-            />
-          </Button>
-        </Block>
-      );
+      if (value) {
+        setShowEmergencyDialog(true)
+      } else {
+        unpause.send();
+        setLoading(true);
+      }
     }
 
     function renderToggle() {
@@ -78,12 +76,12 @@ export default function Account() {
         <Block center middle row space="between" style={styles.toggle}>
           <Block row center>
             <Text h3 light accent>Emergency Button</Text>
-            <FontAwesomeIcon
+            <FontAwesome
               icon={faExclamationCircle}
               color={theme.colors.accent}
-              size='1x'
-              style={{margin: theme.sizes.padding / 2}}
+              style={{margin: theme.sizes.padding / 2}} 
             />
+            { loading ? <Spinner flex={-1} style={{ margin: 0 }} color='gray'/> : null}
           </Block>
           <Switch
           value={paused}
@@ -104,10 +102,9 @@ export default function Account() {
           <Block row center style={styles.body}>
             <Block row flex={-1} style={{flexShrink: 0}}>
               <Block center middle style={styles.icon}>
-                <FontAwesomeIcon
+                <FontAwesome
                   icon={faEthereum}
                   color={theme.colors.black}
-                  size='1x'
                 />
               </Block>
               <Text black style={{marginRight: theme.sizes.padding}}>Address</Text>
@@ -125,7 +122,7 @@ export default function Account() {
           <Block row center style={styles.body}>
             <Block row flex={-1} style={{flexShrink: 0}}>
               <Block center middle style={styles.icon}>
-                <FontAwesomeIcon
+                <FontAwesome
                   icon={faWallet}
                   color={theme.colors.black}
                   size='1x'
@@ -150,9 +147,13 @@ export default function Account() {
         <Spinner middle center color={'gray'} text={'Loading account info from contracts...'}/>
       ) : (
         <Block>
-          {renderHeader()}
+          <EmergencyDialog
+            showEmergencyDialog={showEmergencyDialog}
+            setShowEmergencyDialog={setShowEmergencyDialog}
+            pause={pause}
+            setLoading={setLoading}
+          />
           <ScrollView showsVerticalScrollIndicator={false}>
-            <Text center h1 light spacing={2}>Account</Text>
             <Block center>
               {renderAccount()}
               {isOwner ? renderToggle() : null}
