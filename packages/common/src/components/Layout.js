@@ -148,7 +148,7 @@ const Layout = (props) => {
 
     function renderFooter() {
         return (
-            <Block space='between'>
+            <Block row flex={false} middle space='between' style={styles.footer}>
                 {home}
                 {camera}
                 {verify}
@@ -172,10 +172,15 @@ const Layout = (props) => {
 export default Layout;
 
 const styles = StyleSheet.create({
-    header : {
+    header: {
         borderBottomColor: theme.colors.gray2,
         borderBottomWidth: StyleSheet.hairlineWidth,
         width: '100%',
+    },
+    footer: {
+        borderTopColor: theme.colors.gray2,
+        borderTopWidth: StyleSheet.hairlineWidth,
+        paddingHorizontal: theme.sizes.padding,
     },
     verify: {
         minWidth: theme.sizes.minWidth / 1.5,
