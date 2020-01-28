@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Image } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 import { drizzleReactHooks } from '@drizzle/react-plugin';
 
 import { FontAwesome } from '../utils/FontAwesome';
@@ -17,7 +17,7 @@ function Verify() {
     const location = useLocation();
 
     const queryString = location.search.replace('?', '');
-    const [searchString, setSearchString ] = useState(queryString);
+    const [ searchString, setSearchString ] = useState(queryString);
     
     
     const proof = useCacheCall('ProofOfExistence', 'verifyDocument', queryString);
@@ -25,20 +25,6 @@ function Verify() {
     function getFormattedDate(timestamp) {
         const date = new Date(timestamp*1000);
         return moment(date).local().format('MMMM Do YYYY, h:mm:ss a');
-    }
-
-    function renderBack() {
-        return (
-            <Block row flex={-1} style={{paddingLeft: theme.sizes.padding / 2}}>
-                <Button flex={-1} onPress={() => history.push('/home')}>
-                    <FontAwesome
-                        icon={faChevronLeft}
-                        color={theme.colors.gray2}
-                        size='1x'
-                    />
-                </Button>
-            </Block>
-        );
     }
 
     function renderProof() {
@@ -60,7 +46,7 @@ function Verify() {
                 <FontAwesome
                     icon={faExclamationCircle}
                     color={theme.colors.gray2}
-                    size={'5x'}
+                    size={theme.sizes.base * 5}
                 />
                 <Text h1 gray bold>
                     Hash Not Found
@@ -74,7 +60,7 @@ function Verify() {
                 <FontAwesome
                     icon={faCheckCircle}
                     color={theme.colors.primary}
-                    size={'5x'}
+                    size={theme.sizes.base * 5}
                 />
                 <Text h1 primary bold style={styles.body}>
                     Verified
@@ -111,12 +97,12 @@ function Verify() {
                     rightStyle={styles.verifyRight}
                     rightLabel={
                         <Block middle center style={styles.verifyIcon}>
-                            <FontAwesomeIcon
+                            <FontAwesome
                                 icon={faCertificate}
                                 color={theme.colors.gray2}
                                 style={{ fontSize: theme.sizes.base * 1.2 }}
                             />
-                            <FontAwesomeIcon
+                            <FontAwesome
                                 icon={faCheck}
                                 style={{ position: 'absolute', fontSize: theme.sizes.base * 0.6 }}
                                 color={theme.colors.white}
@@ -141,8 +127,7 @@ function Verify() {
     return (
         <Block>
             <Block row center flex={-1}>
-                {renderBack()}
-                {renderVerifyBar()}
+                {Platform.OS !== 'web' ? renderVerifyBar() : null}
             </Block>
         {queryString === '' ? renderBody() : renderProof()}
         </Block>

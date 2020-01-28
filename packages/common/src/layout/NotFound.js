@@ -5,7 +5,7 @@ import { Block, Text, Button } from '../components/shared';
 import { theme } from '../assets/constants';
 
 export default function NotFound() {
-    // const history = useHistory();
+    const history = useHistory();
     return (
         <Block middle center margin={theme.sizes.padding * 2}>
             <Text h1 black light>
@@ -16,7 +16,7 @@ export default function NotFound() {
                     The content you requested was not found or does not exist
                 </Text>
             </Block>
-            <Button shadow white style={styles.button} onPress={() => history.push("/")}>
+            <Button shadow white style={styles.button} onPress={() => history.push('/home')}>
                 <Text size={theme.sizes.base / 1.5} bold black style={styles.text}>
                     Back to Home
                 </Text> 

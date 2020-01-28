@@ -47,12 +47,11 @@ export function selectContent() {
 
 export function ContentPreview(props) {
     const { preview, fileType } = props;
-    const [playing, setPlaying] = useState(false);
+    const [ playing, setPlaying ] = useState(false);
 
     const previewStyle = {
         maxWidth: '100%',
         maxHeight: '100%',
-        borderRadius: theme.sizes.radius,
     }
 
     const playPause = () => {
@@ -72,7 +71,7 @@ export function ContentPreview(props) {
 
     if (preview && fileType.startsWith('image/')) {
         return (
-            <Block card style={props.style} padding={theme.sizes.padding / 2}>
+            <Block card padding={theme.sizes.padding / 2} style={props.style}>
                 <img src={preview} style={previewStyle} onLoad={() => cleanReference()}/>
             </Block>
         );
@@ -80,8 +79,8 @@ export function ContentPreview(props) {
 
     if (preview && fileType.startsWith('video/')) {
         return (
-            <Block card middle style={props.style} padding={theme.sizes.padding / 2}>
-                <video src={preview} ref={videoRef} style={previewStyle} onLoad={() => cleanReference()}>
+            <Block card middle padding={theme.sizes.padding / 2} style={props.style}>
+                <video src={preview} ref={videoRef} style={{...previewStyle, ...props.style}} onLoad={() => cleanReference()}>
                     No Video Preview Available
                 </video>
                 <Button style={styles.button} onPress={playPause}>

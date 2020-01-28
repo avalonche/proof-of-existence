@@ -1,7 +1,7 @@
 # truffle builds
 ./build
 .openzeppelin/.session
-./packages/common/src/contracts
+**/contracts/
 
 # yarn artifacts
 node_modules/

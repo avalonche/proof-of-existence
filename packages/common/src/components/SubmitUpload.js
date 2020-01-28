@@ -10,8 +10,11 @@ import { Spinner } from './shared';
 
 const SubmitUpload = (props) => {
     const { useCacheSend } = drizzleReactHooks.useDrizzle();
+    const drizzleState = drizzleReactHooks.useDrizzleState(drizzleState => ({
+        transactions: drizzleState.transactions
+    }))
 
-    const { title, setErrors, txCallback, setTxCallback } = props;
+    const { title, setErrors, txCallback, setTxCallback, setShowModal } = props;
     const [ ipfsHash, setIpfsHash ] = useState('');
 
     const [ status, setStatus ] = useState('');
@@ -62,15 +65,12 @@ const SubmitUpload = (props) => {
     const hashTXObjects = uploadHash.TXObjects;
     const infoTXObjects = uploadInfo.TXObjects;
 
-    console.log(hashTXObjects, infoTXObjects);
-    console.log(status);
-
-    const hashStatus = hashTXObjects && hashTXObjects[hashTXObjects.length - 1] && hashTXObjects[hashTXObjects.length - 1].status;
-    const infoStatus = infoTXObjects && infoTXObjects[infoTXObjects.length - 1] && infoTXObjects[infoTXObjects.length - 1].status;
+    const hashStatus = hashTXObjects && hashTXObjects[0] && hashTXObjects[0].status;
+    const infoStatus = infoTXObjects && infoTXObjects[0] && infoTXObjects[0].status;
 
     useEffect(() => {
-        const hashTx = txHandler('hash', hashTXObjects, hashTXObjects.length - 1);
-        const infoTx = txHandler('info', infoTXObjects, infoTXObjects.length - 1);
+        const hashTx = txHandler('hash', hashTXObjects);
+        const infoTx = txHandler('info', infoTXObjects);
 
         const txStatus = {
             ...hashTx.txInfo,
@@ -81,12 +81,6 @@ const SubmitUpload = (props) => {
             ...hashTx.errors,
             ...infoTx.errors,
         }
-
-        if (txStatus.info) {
-            const event = infoTXObjects[0].receipt.events['DocumentCreated'];
-            const id = event.returnValues.documentIndex;
-            txStatus.info.id = parseInt(id);
-        }
         
         setTxCallback({...txCallback, ...txStatus});
         setErrors(errors);
@@ -94,7 +88,10 @@ const SubmitUpload = (props) => {
 
     useEffect(() => {
         if (txCallback.info && txCallback.hash) {
-            history.push(`content/${txCallback.info.id + 1}`);
+            const event = drizzleState.transactions[txCallback.info].receipt.events['DocumentCreated'];
+            const index = event.returnValues.documentIndex;
+            setShowModal(false);
+            history.push(`content/${parseInt(index) + 1}`);
         }
     }, [txCallback])
 

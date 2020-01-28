@@ -40,6 +40,7 @@ const TitleForm = (props) => {
             setErrors: setErrors,
             txCallback: txCallback,
             setTxCallback: setTxCallback,
+            setShowModal: setShowModal,
         }
 
         // no props.title means we are uploading a new file
@@ -47,7 +48,7 @@ const TitleForm = (props) => {
             props.title ? (
                 <SubmitEdit
                     {...formProps}
-                    id={props.id}
+                    index={props.index}
                     oldTitle={props.title}
                 />
             ) : (

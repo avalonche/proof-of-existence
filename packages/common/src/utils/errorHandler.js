@@ -29,6 +29,7 @@ function handleErrorMessage(message) {
 
     switch(reason) {
         case 'revert':
+            // no message after revert, unknown error
             break;
     }
 }
@@ -42,7 +43,7 @@ export function txHandler(key, TXObject, index = 0) {
 
         switch(txStatus) {
             case 'success':
-                txInfo[key] = { txHash: tx.receipt.transactionHash };
+                txInfo[key] = tx.receipt.transactionHash;
                 break;
             case 'error':
                 errors[key] = tx.error.message;

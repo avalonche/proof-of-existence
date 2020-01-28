@@ -10,6 +10,16 @@ const SubmitTags = (props) => {
 
     const addTag = useCacheSend('DocumentInfo', 'addTag');
     const removeTag = useCacheSend('DocumentInfo', 'removeTag');
+            if (oldTags) {
+            tags.map(tag => addTag(id, tag));
+        }
+        else {
+            const tagsToAdd = tags.filter(tag => !oldTags.includes(tag));
+            const tagsToRemove = oldTags.filter(tag => !tags.includes(tag));
+
+            tagsToAdd.map(tag => addTag(id, tag));
+            tagsToRemove.map(tag => removeTag(id, tag));
+        }
 
     useEffect(() => {
         if (tagsToAdd) {

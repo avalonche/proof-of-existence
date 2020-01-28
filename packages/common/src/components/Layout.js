@@ -106,7 +106,7 @@ const Layout = (props) => {
     return (
         <Block style={{ minWidth: theme.sizes.minWidth * 2 }}>
             {Platform.OS === 'web' ? renderHeader() : null}
-            <Block color={theme.colors.background}>
+            <Block color={theme.colors.background} style={{ paddingTop: theme.sizes.padding }}>
                 {renderModal()}
                 {props.children}
             </Block>

@@ -1,38 +1,36 @@
-import React, { useCallback } from 'react';
+import React, { useEffect } from 'react';
 import { drizzleReactHooks } from '@drizzle/react-plugin';
+import { DEFAULT_GAS } from '../utils/connector';
+import { txHandler } from '../utils/errorHandler';
 import { Block } from './shared';
 import { Spinner } from './shared';
+
 const SubmitEdit = (props) => {
     const { useCacheSend } = drizzleReactHooks.useDrizzle();
-    const { title, oldTitle, description, oldDescription, tags, oldTags, id, txCall} = props;
+    const { title, oldTitle,  id, txCallback, setTxCallback, setErrors, showModalForm} = props;
 
-    const { editTitle, editTitleTX } = useCacheSend('DocumentInfo', 'editTitle');
-    const { editDescription, editDescriptionTX } = useCacheSend('DocumentInfo', 'editDescription');
-    const { addTag, addTagTX } = useCacheSend('DocumentInfo', 'addTag');
-    const { removeTag, removeTagTx } = useCacheSend('DocumentInfo', 'removeTag');
+    const editTitle = useCacheSend('DocumentInfo', 'editTitle');
 
-    useCallback(() => {
-        title !== oldTitle ? editTitle(id, title) : null;
-        description !== oldDescription ? editDescription(id, description) : null;
-        
-        if (oldTags) {
-            tags.map(tag => addTag(id, tag));
-        }
-        else {
-            const tagsToAdd = tags.filter(tag => !oldTags.includes(tag));
-            const tagsToRemove = oldTags.filter(tag => !tags.includes(tag));
-
-            tagsToAdd.map(tag => addTag(id, tag));
-            tagsToRemove.map(tag => removeTag(id, tag));
-        }
+    useEffect(() => {
+        title !== oldTitle ? editTitle.send(id, title, { gas: DEFAULT_GAS }) : setTxCallback({ edit: 'no change' });
     }, []);
+
+    const editTitleStatus = editTitle.TXObjects && editTitle.TXObjects[0] && editTitle.TXObjects[0].status;
+
+    useEffect(() => {
+        const editTx = txHandler('edit', editTitle.TXObjects);
+
+        setTxCallback(editTx.txInfo);
+        setErrors(editTx.txInfo);
+    }, [editTitleStatus])
+
+    if (txCallback.edit) {
+        showModalForm(false);
+    } 
 
     return (
         <Block>
-        <Spinner text={editTitleTX.map(t => t.status)}/>
-        <Spinner text={editDescriptionTX.map(t => t.status)}/>
-        <Spinner text={addTag.map(t => t.status)}/>
-        <Spinner text={removeTagTx.map(t => t.status)}/>
+            <Spinner text={'Sending transaction...'}/>
         </Block>
     )
 }
