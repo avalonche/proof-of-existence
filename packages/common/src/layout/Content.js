@@ -7,7 +7,10 @@ import { requestOneContent } from '../redux/content/contentActions';
 
 import { FontAwesome } from '../utils/FontAwesome';
 import { faChevronLeft, faChevronRight, faTags, faEdit } from '@fortawesome/free-solid-svg-icons';
+<<<<<<< Updated upstream
 import { Modal } from '../utils/Modal';
+=======
+>>>>>>> Stashed changes
 
 import NotFound from './NotFound';
 import TitleForm from '../components/TitleForm';
@@ -111,6 +114,7 @@ const Content = () => {
         )
     }
 
+<<<<<<< Updated upstream
     function renderArrows() {
         const back = () => {
             return (
@@ -143,6 +147,28 @@ const Content = () => {
                     )
             )
         }
+=======
+    function renderEdit() {
+        return (
+            <Block row right>
+                <Button color='transparent'>
+                    <FontAwesome
+                        icon={faTags}
+                        color={theme.colors.gray}
+                        size={theme.sizes.h2}
+                    />
+                </Button>
+                <Button color='transparent'>
+                    <FontAwesome
+                        icon={faEdit}
+                        color={theme.colors.gray}
+                        size={theme.sizes.h2}
+                    />
+                </Button>
+            </Block>
+        )
+    }
+>>>>>>> Stashed changes
 
         return (
             <>
@@ -168,6 +194,7 @@ const Content = () => {
         content.loading ? (
             <Spinner middle center gray text={'Loading content...'}/>
         ) : (
+<<<<<<< Updated upstream
             <Block middle>
                 <ScrollView showsVerticalScrollIndicator={false}>
                     <Block style={styles.mainContainer}>
@@ -194,6 +221,13 @@ const Content = () => {
                     </Block>
                 </ScrollView>
                 {renderArrows()}
+=======
+            <Block flex={-1}>
+                {Platform.OS !== 'web' ? renderHeader() : null}
+                {renderContent()}
+                {renderEdit()}
+                {renderInfo()}
+>>>>>>> Stashed changes
             </Block>
             )
     );

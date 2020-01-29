@@ -24,7 +24,7 @@ export function Uploader(props) {
     }
 
     return (
-        <div>
+        <div style={{ height: theme.sizes.h2}}>
             <input
             id='upload'
             type="file"
