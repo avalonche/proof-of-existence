@@ -80,7 +80,7 @@ export function ContentPreview(props) {
     if (preview && fileType.startsWith('video/')) {
         return (
             <Block card middle padding={theme.sizes.padding / 2} style={props.style}>
-                <video src={preview} ref={videoRef} style={{...previewStyle, ...props.style}} onLoad={() => cleanReference()}>
+                <video src={preview} ref={videoRef} style={previewStyle} onLoad={() => cleanReference()}>
                     No Video Preview Available
                 </video>
                 <Button style={styles.button} onPress={playPause}>
@@ -94,6 +94,7 @@ export function ContentPreview(props) {
             </Block>
         );
     }
+    console.log(null)
     // alert invalid file
     return null;
 }

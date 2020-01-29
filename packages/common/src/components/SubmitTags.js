@@ -1,86 +1,62 @@
 import React, { useEffect } from 'react';
 import { drizzleReactHooks } from '@drizzle/react-plugin';
 
+import { DEFAULT_GAS } from '../utils/connector';
+import { resolveAddress } from '../utils/ens';
+import { txHandler } from '../utils/errorHandler';
 import { Spinner } from './shared';
 
 const SubmitTags = (props) => {
     const { useCacheSend } = drizzleReactHooks.useDrizzle();
+    const drizzleState = drizzleReactHooks.useDrizzleState(drizzleState => ({
+        account: drizzleState.accounts[0]
+    }));
 
-    const { tagsToAdd, tagsToRemove, txCallback, setTxCallback, setErrors, id } = props;
+    const { tags, oldTags, index, setShowModal } = props;
 
     const addTag = useCacheSend('DocumentInfo', 'addTag');
     const removeTag = useCacheSend('DocumentInfo', 'removeTag');
-            if (oldTags) {
-            tags.map(tag => addTag(id, tag));
-        }
-        else {
-            const tagsToAdd = tags.filter(tag => !oldTags.includes(tag));
-            const tagsToRemove = oldTags.filter(tag => !tags.includes(tag));
-
-            tagsToAdd.map(tag => addTag(id, tag));
-            tagsToRemove.map(tag => removeTag(id, tag));
-        }
+    
+    const tagsToAdd = tags.filter(tag => !oldTags.includes(tag));
+    const tagsToRemove = oldTags.filter(tag => !tags.includes(tag));
 
     useEffect(() => {
-        if (tagsToAdd) {
-            tagsToAdd.forEach(tag => addTag.send(id, tag));
-        }
+        tagsToAdd.forEach(async(tag) =>
+            addTag.send(index, tag, { gas: DEFAULT_GAS, from: await resolveAddress(drizzleState.account) }));
+        tagsToRemove.forEach(async(tag) =>
+            removeTag.send(index, tag, { gas: DEFAULT_GAS, from: await resolveAddress(drizzleState.account) }));
 
-        if (tagsToRemove) {
-            tagsToRemove.forEach(tag => removeTag.send(id, tag));            
-        }
+        addTags();
+        removeTags()
+        setShowModal(false);
     }, []);
 
+    const addTagTx = addTag.TXObjects;
+    const removeTagTx = removeTag.TXObjects;
+
     useEffect(() => {
-        addTag.TXObject.map(txObj => {
-            if (txObj) {
+        const getErrors = (txObject, tags) => {
+            if (txObject && txObject.length === tags.length) {
+                let txFinished = true;
+                txObject.forEach(tag => tag ? null : txFinished = false)
 
+                if (txFinished) {
+                    for (let i = 0; i < tags.length; i++) {
+                        const errors = txHandler(tags[i], addTagTx, i).errors[tags[i]];
+                        if (errors) {
+                            return errors;
+                        }
+                    }
+                }
             }
-        });
-    }, [addTag.TXObject, removeTag.TXObject])
-    // const addTag = useCacheSend('DocumentInfo', 'addTag');
-
-    // useEffect(() => {
-    //     if (txCallback.info && txCallback.hash) {
-    //         tags.forEach((tag) => {
-    //             if (!txCallback.tags || !txCallback.tags[tag]) {
-    //                 addTag.send(txCallback.info.id, tag);
-    //             }
-    //         });
-    //     }
-    // }, [txCallback]);
-
-    // const addTagTx = addTag.TXObjects
-
-    // useEffect(() => {
-    //     if (addTagTx && addTagTx.length === tags.length) {
-    //         let txFinished = true;
-    //         addTagTx.forEach(tag => tag ? null : txFinished = false)
-
-    //         if (txFinished) {
-    //             const tagsTxInfo = tags.reduce(
-    //                 (tagObj, tag, i) => (tagObj[tag] = txHandler(tag, addTagTx, i).txInfo[tag], tagObj), {}
-    //             );
-
-    //             const getTagErrors = () => {
-    //                 for (let i = 0; i < tags.length; i++) {
-    //                     const errors = txHandler(tags[i], addTagTx, i).errors[tags[i]];
-    //                     if (errors.message) {
-    //                         return errors;
-    //                     }
-    //                 }
-    //             }
-    //             const tagErrors = getTagErrors();
-
-    //             Object.keys(tagsTxInfo).length !== 0 ? setTxCallback({...txCallback, tags: tagsTxInfo}): null;
-    //             tagErrors ? setErrors({...txCallback, tags: tagErrors}) : null;
-    //             // history.push(`/content/${txCallback.info.id + 1}`);
-    //         }
-    //     }
-    // }, [addTagTx.join(',')]);
+        }
+        // alerts
+        const addTagErrors = getErrors(addTagTx, tagsToAdd);
+        const removeTagErrors = getErrors(removeTagTx, tagsToRemove);
+    }, [addTagTx.join(','), removeTagTx.join(',')]);
 
     return (
-        <Spinner/>
+        <Spinner middle center color={'gray'} text={'Sending Transaction...'}/>
     )
 }
 

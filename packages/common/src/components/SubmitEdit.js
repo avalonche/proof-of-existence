@@ -1,37 +1,41 @@
 import React, { useEffect } from 'react';
 import { drizzleReactHooks } from '@drizzle/react-plugin';
+
 import { DEFAULT_GAS } from '../utils/connector';
+import { resolveAddress } from '../utils/ens';
 import { txHandler } from '../utils/errorHandler';
-import { Block } from './shared';
 import { Spinner } from './shared';
 
 const SubmitEdit = (props) => {
     const { useCacheSend } = drizzleReactHooks.useDrizzle();
-    const { title, oldTitle,  id, txCallback, setTxCallback, setErrors, showModalForm} = props;
+    const { title, oldTitle, index, setShowModal } = props;
+    const drizzleState = drizzleReactHooks.useDrizzleState(drizzleState => ({
+        account: drizzleState.accounts[0]
+    }));
 
     const editTitle = useCacheSend('DocumentInfo', 'editTitle');
-
-    useEffect(() => {
-        title !== oldTitle ? editTitle.send(id, title, { gas: DEFAULT_GAS }) : setTxCallback({ edit: 'no change' });
-    }, []);
-
     const editTitleStatus = editTitle.TXObjects && editTitle.TXObjects[0] && editTitle.TXObjects[0].status;
 
     useEffect(() => {
+        const sendEdit = async () => {
+            if (title !== oldTitle) {
+                editTitle.send(index, title, { gas: DEFAULT_GAS, from: await resolveAddress(drizzleState.account) });
+            }
+        }
+
+        sendEdit();
+        setShowModal(false);
+    }, []);
+
+    useEffect(() => {
         const editTx = txHandler('edit', editTitle.TXObjects);
-
-        setTxCallback(editTx.txInfo);
-        setErrors(editTx.txInfo);
-    }, [editTitleStatus])
-
-    if (txCallback.edit) {
-        showModalForm(false);
-    } 
+        if (editTx.errors) {
+            // alert
+        }
+    }, [editTitleStatus]);
 
     return (
-        <Block>
-            <Spinner text={'Sending transaction...'}/>
-        </Block>
+        <Spinner color={'gray'} middle center text={'Sending transaction...'}/>
     )
 }
-export default SubmitEdit;
+export default SubmitEdit

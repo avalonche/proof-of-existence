@@ -24,13 +24,10 @@ const ipfsHashErrors = [
 ]
 // revert, out of gas, block gas limit reached
 // need to retrive error message
-function handleErrorMessage(message) {
-    const reason = message.split(errorString)[1];
+// Error: Returned error: VM Exception while processing transaction: revert This content has previously been uploaded
+function handleErrorMessage(message) {  
+    if (indexOf(errorString) >= 0) {
 
-    switch(reason) {
-        case 'revert':
-            // no message after revert, unknown error
-            break;
     }
 }
 

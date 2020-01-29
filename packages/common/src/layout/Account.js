@@ -10,7 +10,6 @@ import { faWallet, faExclamationCircle } from '@fortawesome/free-solid-svg-icons
 import { faEthereum } from '@fortawesome/free-brands-svg-icons';
 
 import EmergencyDialog from '../components/EmergencyDialog';
-import { Modal } from '../utils/Modal';
 import { alert } from '../utils/Alert';
 import { Divider, Button, Block, Text, Switch, Spinner, Copy } from '../components/shared';
 import { theme } from '../assets/constants';

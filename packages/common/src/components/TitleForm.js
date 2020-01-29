@@ -30,17 +30,11 @@ const TitleForm = (props) => {
         setErrors(currentErrors);
     }
 
-    function handleCancel() {
-        setShowModal(false);
-    }
-
     function submitForm() {
         const formProps = {
             title: title,
-            setErrors: setErrors,
-            txCallback: txCallback,
-            setTxCallback: setTxCallback,
             setShowModal: setShowModal,
+
         }
 
         // no props.title means we are uploading a new file
@@ -54,6 +48,9 @@ const TitleForm = (props) => {
             ) : (
                 <SubmitUpload
                     {...formProps}
+                    txCallback={txCallback}
+                    setTxCallback={setTxCallback}
+                    setErrors={setErrors}
                 />
             )
         );
@@ -93,7 +90,7 @@ const TitleForm = (props) => {
                         <Text bold white center>Submit</Text>
                     </Button>
 
-                    <Button onPress={() => handleCancel()} color={'transparent'}>
+                    <Button onPress={() => setShowModal(false)} color={'transparent'}>
                         <Text gray small center style={{ textDecorationLine: 'underline' }}>
                             Cancel
                         </Text>

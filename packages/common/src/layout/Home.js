@@ -29,9 +29,10 @@ const Home = () => {
       <TouchableOpacity
         key={index}
         onPress={() => history.push(`content/${index + 1}`)}
+        style={styles.content}
       >
         <ContentPreview
-          source={content.url}
+          preview={content.url}
           fileType={content.fileType}
           style={styles.content}
         />
@@ -65,7 +66,7 @@ const Home = () => {
       ) : (
         <Block middle center padding={theme.sizes.padding}>
           <Text gray light>
-            You haven't uploaded anything yet!
+            No Uploads Yet
           </Text>
         </Block>
       )

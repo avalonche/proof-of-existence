@@ -4,6 +4,7 @@ import { useHistory } from '../utils/Router';
 import { drizzleReactHooks } from '@drizzle/react-plugin';
 
 import { DEFAULT_GAS } from '../utils/connector';
+import { resolveAddress } from '../utils/ens';
 import { txHandler } from '../utils/errorHandler';
 import { requestUpload } from '../redux/content/contentActions';
 import { Spinner } from './shared';
@@ -11,7 +12,8 @@ import { Spinner } from './shared';
 const SubmitUpload = (props) => {
     const { useCacheSend } = drizzleReactHooks.useDrizzle();
     const drizzleState = drizzleReactHooks.useDrizzleState(drizzleState => ({
-        transactions: drizzleState.transactions
+        transactions: drizzleState.transactions,
+        account: drizzleState.accounts[0]
     }))
 
     const { title, setErrors, txCallback, setTxCallback, setShowModal } = props;
@@ -48,18 +50,22 @@ const SubmitUpload = (props) => {
     }, [upload.status]);
 
     useEffect(() => {
-        if (ipfsHash) {
-            setStatus('sendingTX');
-            // if transaction callback contains a hash, transaction succeeded for this upload before
-            // in that case, don't duplicate transaction
-            if (!txCallback.hash) {
-                uploadHash.send(ipfsHash, {gas: DEFAULT_GAS});
-            }
+        const sendTx = async () => {
+            if (ipfsHash) {
+                setStatus('sendingTX');
+                // if transaction callback contains a hash, transaction succeeded for this upload before
+                // in that case, don't duplicate transaction
+                if (!txCallback.hash) {
+                    uploadHash.send(ipfsHash, { gas: DEFAULT_GAS, from: await resolveAddress(drizzleState.account) });
+                }
 
-            if (!txCallback.info) {
-                uploadInfo.send(ipfsHash, title, {gas: DEFAULT_GAS});
+                if (!txCallback.info) {
+                    uploadInfo.send(ipfsHash, title, { gas: DEFAULT_GAS, from: await resolveAddress(drizzleState.account)} );
+                }
             }
         }
+
+        sendTx();
     }, [ipfsHash]);
 
     const hashTXObjects = uploadHash.TXObjects;
@@ -91,7 +97,7 @@ const SubmitUpload = (props) => {
             const event = drizzleState.transactions[txCallback.info].receipt.events['DocumentCreated'];
             const index = event.returnValues.documentIndex;
             setShowModal(false);
-            history.push(`content/${parseInt(index) + 1}`);
+            history.push(`/content/${parseInt(index) + 1}`);
         }
     }, [txCallback])
 

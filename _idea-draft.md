@@ -14,21 +14,12 @@ source ~/vyper-venv/bin/activate
 
 source ~/vyper-venv/bin/activate
 
-
-- put in a white background colour + info
-- loading spinner/page
-- alert 
-- activity indicator
-
-Connection banner:
-	- If not using web3 capable browse
-	- Web3 provider not detected
-	- Current network not match 
-
-
-- need to add try 
-
-- add description to the smart contract (write function to add, edit, + tests, redeploy)
+- mobile ui (blob)
+- error handling (submit tags, edit, upload)
+- gas used for upload
+- serve ui from ipfs
+- persistence, cache
+- docs
 
 User Stories:
 A user logs into the web app. The user can upload some data (pictures/video) to the app, as well as add a list of tags indicating the contents of the data.

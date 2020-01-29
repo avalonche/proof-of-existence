@@ -37,7 +37,7 @@ library IterableMapping {
     }
 
     function contains(itmap storage self, bytes32 key) internal view returns (bool) {
-        return self.data[key].keyIndex > 0;
+        return self.data[key].value;
     }
 
     function valid(itmap storage self, uint keyIndex) internal view returns (bool) {

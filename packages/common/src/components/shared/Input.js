@@ -16,7 +16,7 @@ export default class Input extends Component {
   
     return (
       <Block row space="between">
-        <Block row flex={false}>
+        <Block row flex={-1}>
           {label ? <Text gray2={!error} accent={error}>{label}</Text> : null}
           {required ? <Text caption accent> * </Text> : null}
         </Block>

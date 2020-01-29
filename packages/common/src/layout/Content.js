@@ -4,13 +4,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { drizzleReactHooks } from '@drizzle/react-plugin';
 import { useParams, useHistory } from '../utils/Router';
 import { requestOneContent } from '../redux/content/contentActions';
+import { getCurrentProvider } from '../utils/connector';
 
 import { FontAwesome } from '../utils/FontAwesome';
 import { faChevronLeft, faChevronRight, faTags, faEdit } from '@fortawesome/free-solid-svg-icons';
-<<<<<<< Updated upstream
 import { Modal } from '../utils/Modal';
-=======
->>>>>>> Stashed changes
 
 import NotFound from './NotFound';
 import TitleForm from '../components/TitleForm';
@@ -22,7 +20,6 @@ import { theme } from '../assets/constants';
 
 const Content = () => {
     const { useCacheCall } = drizzleReactHooks.useDrizzle();
-    const [ contentId, setContentId ] = useState()
     const [ showEditModal, setShowEditModal ] = useState(false);
     const [ showTagsModal, setShowTagsModal ] = useState(false);
 
@@ -31,22 +28,21 @@ const Content = () => {
     const history = useHistory();
     // error handling incase they request bad id
     const { id } = useParams();
-    useEffect(() => {
-        setContentId(parseInt(id));
-    }, [])
+    const contentId = parseInt(id);
+    const web3 = getCurrentProvider();
 
     const contentInfo = useCacheCall('DocumentInfo', 'getDocument', contentId - 1);
     const documentNum = useCacheCall('DocumentInfo', 'getNumberOfDocuments');
-    const tagInfo = useCacheCall(['DocumentInfo'], call => {
-        const tags = [];
+    const tags = useCacheCall(['DocumentInfo'], call => {
+        const tagsRes = [];
         for (let i = 0; call('DocumentInfo', 'validTagIndex', contentId - 1, i); i++) {
-            const tag = call('DocumentInfo', 'getTagByIndex', contentId - 1, i)
-            if (tag && tag.exists) {
-                tags.push(tag);
+            const tagInfo = call('DocumentInfo', 'getTagByIndex', contentId - 1, i)
+            if (tagInfo && tagInfo.exists) {
+                tagsRes.push(web3.utils.hexToUtf8(tagInfo.tag));
             }
             i++;
         }
-        return tags;
+        return tagsRes;
     });
 
     useEffect(() => {
@@ -82,6 +78,7 @@ const Content = () => {
             </Block>
         )
     }
+
     function renderContent() {
         const filePreview = content.filePreview;
         
@@ -100,6 +97,20 @@ const Content = () => {
             )
         )
     }
+    
+    function renderTags() {
+        const tagContainers = tags.map((tag, i) => (
+            <Block key={`tag-${i}`} shadow row style={styles.tagContainer}>
+                <Text center style={styles.tagText} small>{tag}</Text>
+            </Block>
+        ));
+
+        return (
+            <Block row wrap right padding={[0, theme.sizes.padding]}>
+                {tagContainers}
+            </Block>
+        );
+    }
 
     function renderHome() {
         return (
@@ -114,7 +125,6 @@ const Content = () => {
         )
     }
 
-<<<<<<< Updated upstream
     function renderArrows() {
         const back = () => {
             return (
@@ -147,28 +157,6 @@ const Content = () => {
                     )
             )
         }
-=======
-    function renderEdit() {
-        return (
-            <Block row right>
-                <Button color='transparent'>
-                    <FontAwesome
-                        icon={faTags}
-                        color={theme.colors.gray}
-                        size={theme.sizes.h2}
-                    />
-                </Button>
-                <Button color='transparent'>
-                    <FontAwesome
-                        icon={faEdit}
-                        color={theme.colors.gray}
-                        size={theme.sizes.h2}
-                    />
-                </Button>
-            </Block>
-        )
-    }
->>>>>>> Stashed changes
 
         return (
             <>
@@ -194,21 +182,21 @@ const Content = () => {
         content.loading ? (
             <Spinner middle center gray text={'Loading content...'}/>
         ) : (
-<<<<<<< Updated upstream
             <Block middle>
                 <ScrollView showsVerticalScrollIndicator={false}>
                     <Block style={styles.mainContainer}>
                         {Platform.OS !== 'web' ? renderHome() : null}
 
-                        <Modal setShowModal={setShowEditModal} title={contentInfo._title} index={contentId - 1}>
-                            <TitleForm/>
+                        <Modal visible={showEditModal} style={{ content: { top: 80, bottom: 'none' }}}>
+                            <TitleForm setShowModal={setShowEditModal} title={contentInfo._title} index={contentId - 1}/>
                         </Modal>
-                        <Modal setShowModal={setShowTagsModal} tags={tagInfo} index={contentId - 1}>
-                            <TagsForm/>
+                        <Modal visible={showTagsModal} style={{ content: { top: 80, bottom: 'none' }}}>
+                            <TagsForm setShowModal={setShowTagsModal} tags={tags} index={contentId - 1}/>
                         </Modal>
                         
                         {renderHeader()}
                         {renderContent()}
+                        {renderTags()}
                         <Block margin={[0, theme.sizes.base]} style={styles.container}>
                             <Block padding={theme.sizes.padding} flex={-1}>
                                 <Block row space='between'>
@@ -221,13 +209,6 @@ const Content = () => {
                     </Block>
                 </ScrollView>
                 {renderArrows()}
-=======
-            <Block flex={-1}>
-                {Platform.OS !== 'web' ? renderHeader() : null}
-                {renderContent()}
-                {renderEdit()}
-                {renderInfo()}
->>>>>>> Stashed changes
             </Block>
             )
     );
@@ -272,5 +253,21 @@ const styles = StyleSheet.create({
         position: 'absolute',
         right: 0,
         top: 0,
-    }
+    },
+    tagContainer: {
+        flex: -1, 
+        borderRadius: theme.sizes.radius / 2,
+        borderColor: theme.colors.gray2,
+        borderWidth: StyleSheet.hairlineWidth,
+        paddingHorizontal: theme.sizes.padding / 4,
+        justifyContent: 'center',
+        margin: theme.sizes.base / 2,
+        marginTop: 0,
+        backgroundColor: theme.colors.white,
+    },
+    tagText: {
+        padding: theme.sizes.base / 4,
+        paddingTop: theme.sizes.base / 8,
+        marginHorizontal: theme.sizes.base / 8,
+    },
 })
