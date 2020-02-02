@@ -15143,6 +15143,179 @@
     "version": "0.5.12+commit.7709ece9.Emscripten.clang"
   },
   "networks": {
+    "4": {
+      "events": {
+        "0xbf0d6fa2e053419f1664b2b996a52b68328f9a9ba552919a6880c4b397933fac": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "bytes32",
+              "name": "documentId",
+              "type": "bytes32"
+            },
+            {
+              "indexed": false,
+              "internalType": "string",
+              "name": "ipfsHash",
+              "type": "string"
+            },
+            {
+              "indexed": false,
+              "internalType": "string",
+              "name": "title",
+              "type": "string"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "documentIndex",
+              "type": "uint256"
+            }
+          ],
+          "name": "DocumentCreated",
+          "type": "event",
+          "signature": "0xbf0d6fa2e053419f1664b2b996a52b68328f9a9ba552919a6880c4b397933fac"
+        },
+        "0x62e78cea01bee320cd4e420270b5ea74000d11b0c9f74754ebdbfc544b05a258": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "address",
+              "name": "account",
+              "type": "address"
+            }
+          ],
+          "name": "Paused",
+          "type": "event",
+          "signature": "0x62e78cea01bee320cd4e420270b5ea74000d11b0c9f74754ebdbfc544b05a258"
+        },
+        "0x6719d08c1888103bea251a4ed56406bd0c3e69723c8a1686e017e7bbe159b6f8": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "account",
+              "type": "address"
+            }
+          ],
+          "name": "PauserAdded",
+          "type": "event",
+          "signature": "0x6719d08c1888103bea251a4ed56406bd0c3e69723c8a1686e017e7bbe159b6f8"
+        },
+        "0xcd265ebaf09df2871cc7bd4133404a235ba12eff2041bb89d9c714a2621c7c7e": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "account",
+              "type": "address"
+            }
+          ],
+          "name": "PauserRemoved",
+          "type": "event",
+          "signature": "0xcd265ebaf09df2871cc7bd4133404a235ba12eff2041bb89d9c714a2621c7c7e"
+        },
+        "0xeaf0aa115b33890ea528765e576d841fa23ebea18c16ab5dc216c2d841f49ddd": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "string",
+              "name": "tag",
+              "type": "string"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint8",
+              "name": "tagCount",
+              "type": "uint8"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "timeAdded",
+              "type": "uint256"
+            }
+          ],
+          "name": "TagAdded",
+          "type": "event",
+          "signature": "0xeaf0aa115b33890ea528765e576d841fa23ebea18c16ab5dc216c2d841f49ddd"
+        },
+        "0x6c6962b0cc25156ecdd27e543ab8dae6ba2a70bc75221146773730c242269f69": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "string",
+              "name": "tag",
+              "type": "string"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint8",
+              "name": "tagCount",
+              "type": "uint8"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "timeRemoved",
+              "type": "uint256"
+            }
+          ],
+          "name": "TagRemoved",
+          "type": "event",
+          "signature": "0x6c6962b0cc25156ecdd27e543ab8dae6ba2a70bc75221146773730c242269f69"
+        },
+        "0xc8e16a6f806056a03e3f892a26e12a7535598a84aabcb7237afbcdaddb302b8f": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "string",
+              "name": "oldTitle",
+              "type": "string"
+            },
+            {
+              "indexed": false,
+              "internalType": "string",
+              "name": "newTitle",
+              "type": "string"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "timeEdited",
+              "type": "uint256"
+            }
+          ],
+          "name": "TitleEdited",
+          "type": "event",
+          "signature": "0xc8e16a6f806056a03e3f892a26e12a7535598a84aabcb7237afbcdaddb302b8f"
+        },
+        "0x5db9ee0a495bf2e6ff9c91a7834c1ba4fdd244a5e8aa4e537bd38aeae4b073aa": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "address",
+              "name": "account",
+              "type": "address"
+            }
+          ],
+          "name": "Unpaused",
+          "type": "event",
+          "signature": "0x5db9ee0a495bf2e6ff9c91a7834c1ba4fdd244a5e8aa4e537bd38aeae4b073aa"
+        }
+      },
+      "links": {},
+      "address": "0x3985DEfFBb62c4D5a113977384cb2413Cb4EC327",
+      "transactionHash": "0xf77f6ca05d21d0833dddeb33e2da298b21f0de6ad33c6e260b1ee6c9c9f4560e"
+    },
     "5777": {
       "events": {
         "0xbf0d6fa2e053419f1664b2b996a52b68328f9a9ba552919a6880c4b397933fac": {
@@ -15318,7 +15491,7 @@
     }
   },
   "schemaVersion": "3.0.19",
-  "updatedAt": "2020-02-02T19:55:30.932Z",
+  "updatedAt": "2020-02-02T22:45:54.104Z",
   "networkType": "ethereum",
   "devdoc": {
     "methods": {

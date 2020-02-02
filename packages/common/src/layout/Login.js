@@ -45,8 +45,10 @@ class Login extends Component {
     
     setProvider(provider);
     const web3 = getWeb3(provider);
+    console.log('his')
     if (web3) {
       const drizzleOptions = configureOptions(web3);
+      console.log(drizzleOptions);
       this.setState({drizzle: new Drizzle(drizzleOptions, store)});
     }
   }

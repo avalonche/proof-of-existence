@@ -24,7 +24,7 @@ const Layout = (props) => {
 
     function renderCamera() {
         return (
-            <Button onPress={() => selectContent(setPreview, setFileType, setShowModal)}>
+            <Button color={'transparent'} onPress={() => selectContent(setPreview, setFileType, setShowModal)}>
                 <Uploader
                     icon={
                         <FontAwesome
@@ -48,7 +48,7 @@ const Layout = (props) => {
         const currentPath = (path) => path === location.pathname.replace('/', '');
 
         return iconNames.map((iconName) => (
-            <Button onPress={() => history.push(`/${iconName}`)}>
+            <Button onPress={() => history.push(`/${iconName}`)} color={'transparent'}>
                 <FontAwesome
                     icon={icons[iconName]}
                     color={currentPath(iconName) ? theme.colors.black : theme.colors.gray2}
@@ -94,7 +94,7 @@ const Layout = (props) => {
 
     function renderFooter() {
         return (
-            <Block row flex={false} middle space='between' style={styles.footer}>
+            <Block color={'transparent'} row flex={false} middle space='between' style={styles.footer}>
                 {home}
                 {camera}
                 {verify}

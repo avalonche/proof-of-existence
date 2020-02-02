@@ -53,22 +53,18 @@ export function hasWSProvider() {
 }
 
 export function configureOptions(web3) {
-    if (deployConfig.useDeployedAdresses && !deployConfig.localDeployment) {
-        drizzleOptions.contracts = deployConfig.contracts.map((contractInfo, index) => {
-            const options = {
-                // data: '',
-            }
-            const contract = new web3.eth.Contract(drizzleOptions.contracts[index], contractInfo.address, options);
-            return {
-                contractName: contractInfo.name,
-                web3Contract: contract,
-            }
-        })
-    }
     if (typeof web3 === 'object') {
         drizzleOptions.web3.customProvider = web3;
+        if (deployConfig.useDeployedAdresses && !deployConfig.localDeployment) {
+            drizzleOptions.contracts = deployConfig.contracts.map((contractInfo, index) => {
+                const contract = new web3.eth.Contract(drizzleOptions.contracts[index], contractInfo.address);
+                return {
+                    contractName: contractInfo.name,
+                    web3Contract: contract,
+                }
+            })
+        }
     }
-
     return drizzleOptions;
 }
 

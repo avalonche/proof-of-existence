@@ -214,7 +214,7 @@ const Content = () => {
                         {renderContent()}
                         {renderTags()}
                         <Block style={styles.container}>
-                            <Block padding={[theme.sizes.padding, 0]}>
+                            <Block>
                                 <Block row>
                                     <Text bold style={{ paddingRight: theme.sizes.padding }}>IPFS Hash: </Text>
                                     <Text light gray center numberOfLines={1} style={{ flex: 1 }}>{contentInfo._ipfsHash}</Text>

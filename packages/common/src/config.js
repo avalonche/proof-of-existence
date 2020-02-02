@@ -21,7 +21,7 @@ export default drizzleOptions;
 
 export const deployConfig = {
     localDeployment: true,
-    useDeployedAdresses: false,
+    useDeployedAdresses: true,
     contracts: [
         {
             name: "ProofOfExistence",
