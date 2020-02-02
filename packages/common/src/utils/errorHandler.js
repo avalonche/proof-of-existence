@@ -1,18 +1,12 @@
-const errorString = 'VM Exception while processing transaction: ';
+const errorString = 'VM Exception while processing transaction: revert';
 const tagErrors = [
     'Tag index out of bounds',
-    'This tag does not exist for this content', // removing tag
-    'This tag already exists for this content', // adding tag
     'Uploaded content have a limit of 10 tags each',
     'Tag must not be empty or exceed 25 bytes',
 ]
 const contentErrors = [
     'This content has previously been uploaded',
-    'The content requests does not exist',
-]
-
-const descriptionErrors = [
-    'Description must not exceed 255 bytes'
+    'The content requested does not exist',
 ]
 
 const titleErrors = [
@@ -26,14 +20,28 @@ const ipfsHashErrors = [
 // need to retrive error message
 // Error: Returned error: VM Exception while processing transaction: revert This content has previously been uploaded
 function handleErrorMessage(message) {  
-    if (indexOf(errorString) >= 0) {
-
+    if (message.indexOf(errorString) >= 0) {
+        const reason = message.split(errorString)[1].trim();
+        if (!reason) {
+            return 'The hash of your content could not be recorded in the contract'
+        }
+        if (tagErrors.includes(reason)) {
+            return { tags: reason }
+        } else if (contentErrors.includes(reason)) {
+            return { content: reason }
+        } else if (titleErrors.includes(reason)) {
+            return { title: reason }
+        } else if (ipfsHashErrors.includes(reason)) {
+            return { ipfsHash: reason }
+        } else {
+            return { error: 'An error occurred while processing your transaction. Please try again.' }
+        }
     }
 }
 
 export function txHandler(key, TXObject, index = 0) {
     const txInfo = {};
-    const errors = {};
+    let errors = {};
     if (TXObject) {
         const tx = TXObject[index];
         const txStatus = tx && tx.status;
@@ -43,7 +51,7 @@ export function txHandler(key, TXObject, index = 0) {
                 txInfo[key] = tx.receipt.transactionHash;
                 break;
             case 'error':
-                errors[key] = tx.error.message;
+                errors = {errors: handleErrorMessage(tx.error.message)};
                 break;
         }
     }

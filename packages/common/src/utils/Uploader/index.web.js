@@ -94,7 +94,6 @@ export function ContentPreview(props) {
             </Block>
         );
     }
-    console.log(null)
     // alert invalid file
     return null;
 }

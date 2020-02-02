@@ -7,7 +7,8 @@ import { DEFAULT_GAS } from '../utils/connector';
 import { resolveAddress } from '../utils/ens';
 import { txHandler } from '../utils/errorHandler';
 import { requestUpload } from '../redux/content/contentActions';
-import { Spinner } from './shared';
+import { Spinner, Block, Text, Button } from './shared';
+import { theme } from '../assets/constants';
 
 const SubmitUpload = (props) => {
     const { useCacheSend } = drizzleReactHooks.useDrizzle();
@@ -45,7 +46,7 @@ const SubmitUpload = (props) => {
                 setIpfsHash(upload.value[0].hash);
                 break;
             case 'error':
-                setErrors({upload: {message: upload.error}});
+                setErrors({ upload: upload.error });
         }
     }, [upload.status]);
 
@@ -87,19 +88,53 @@ const SubmitUpload = (props) => {
             ...hashTx.errors,
             ...infoTx.errors,
         }
-        
+
         setTxCallback({...txCallback, ...txStatus});
         setErrors(errors);
     }, [hashStatus, infoStatus]);
 
     useEffect(() => {
-        if (txCallback.info && txCallback.hash) {
-            const event = drizzleState.transactions[txCallback.info].receipt.events['DocumentCreated'];
-            const index = event.returnValues.documentIndex;
-            setShowModal(false);
-            history.push(`/content/${parseInt(index) + 1}`);
-        }
+
     }, [txCallback])
+
+    function handleOk(index) {
+        setShowModal(false);
+        history.push(`/content/${parseInt(index) + 1}`);
+    }
+
+    if (txCallback.info && txCallback.hash) {
+        const event = drizzleState.transactions[txCallback.info].receipt.events['DocumentCreated'];
+        const index = event.returnValues.documentIndex;
+
+        const infoGas = drizzleState.transactions[txCallback.info].receipt.gasUsed;
+        const hashGas = drizzleState.transactions[txCallback.hash].receipt.gasUsed;
+        return (
+            <Block middle center space='around' padding={theme.sizes.padding}>
+                <Text bold h2>Transaction Success!</Text>
+                
+                <Block space='between' padding={theme.sizes.padding}>
+                    <Text gray bold>Transation Hashes: </Text>
+                    <Block>
+                        <Text gray light>
+                            {`${txCallback.info}
+                            ${txCallback.hash}`}
+                        </Text>
+                    </Block>
+                </Block>
+                
+                <Block row space='between' padding={theme.sizes.pad}>
+                    <Text gray bold>Culmutive Gas Used:    </Text>
+                    <Text gray light>{infoGas + hashGas}</Text>
+                </Block>
+                <Button onPress={() => handleOk(index)} color={'transparent'}>
+                    <Text gray small center style={{ textDecorationLine: 'underline' }}>
+                        OK
+                    </Text>
+                </Button>
+
+            </Block>
+        )
+    }
 
     if (status === 'uploading') {
         return (

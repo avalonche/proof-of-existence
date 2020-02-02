@@ -15,12 +15,12 @@ export default class Input extends Component {
     const {label, required, error, limit, currValue, showLimit } = this.props;
   
     return (
-      <Block row space="between">
+      <Block row space="between" flex={-1}>
         <Block row flex={-1}>
           {label ? <Text gray2={!error} accent={error}>{label}</Text> : null}
           {required ? <Text caption accent> * </Text> : null}
         </Block>
-        <Block row center middle flex={false}>
+        <Block row center middle flex={-1}>
           {showLimit ? <Text caption gray2>{currValue}/{limit}</Text> : null}
         </Block>
       </Block>
@@ -93,8 +93,8 @@ export default class Input extends Component {
       ? 'phone-pad' : 'default';
 
     return (
-      <Block>
-        <Block>
+      <Block flex={-1}>
+        <Block flex={-1}>
           {this.renderLabel()}
           {this.renderLeft()}
           <TextInput

@@ -1,10 +1,11 @@
 import React, { useMemo } from 'react'
-import { Dimensions, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { Platform, Dimensions, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { useSelector } from 'react-redux';
 import { useHistory } from '../utils/Router';
 
 import { ContentPreview } from '../utils/Uploader';
 
+import VerifyBar from '../components/VerifyBar';
 import { Block, Text, Spinner } from '../components/shared';
 import { theme } from '../assets/constants';
 
@@ -35,6 +36,7 @@ const Home = () => {
           preview={content.url}
           fileType={content.fileType}
           style={styles.content}
+          resizeMode={'cover'}
         />
       </TouchableOpacity>
     )
@@ -46,7 +48,7 @@ const Home = () => {
 
     return (
       mainContent ? (
-        <Block style={{ marginBottom: height / 3 }}>
+        <Block margin={[theme.sizes.base, 0]}>
           <TouchableOpacity
             style={[ styles.content, styles.mainContent ]}
             onPress={() => history.push('content/1')}
@@ -55,6 +57,7 @@ const Home = () => {
               preview={mainContent.url}
               fileType={mainContent.fileType}
               style={[styles.content, styles.mainContent]}
+              resizeMode={'cover'}
             />
           </TouchableOpacity>
           <Block row space='between' wrap>
@@ -72,9 +75,23 @@ const Home = () => {
       )
     );
   }
+
+  function renderVerify() {
+    return (
+      Platform.OS !== 'web' ? (
+        <Block row flex={-1} space='between' padding={[0, theme.sizes.base * 2]}>
+           <Text center h2 bold style={{ paddingRight: theme.sizes.padding }}>Uploads</Text>
+          <VerifyBar/>
+        </Block>
+      ) : (
+        null
+      )
+    )
+  }
  
   return (
     <Block style={{minWidth: theme.sizes.minWidth}}>
+      {renderVerify()}
       <ScrollView showsVerticalScrollIndicator={false} style={styles.contentContainer}>
         {useMemo(() => loadContent(), [content.filePreviews])}
       </ScrollView>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ScrollView, Platform, StyleSheet } from 'react-native';
+import { Dimensions, ScrollView, Platform, StyleSheet } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { drizzleReactHooks } from '@drizzle/react-plugin';
 import { useParams, useHistory } from '../utils/Router';
@@ -59,19 +59,25 @@ const Content = () => {
                 </Block>
 
                 <Block row style={styles.icons}>
-                    <Button color={'transparent'} onPress={() => setShowEditModal(true)}>
+                    <Button
+                        color={'transparent'}
+                        style={{ padding: theme.sizes.base / 2 }}
+                        onPress={() => setShowEditModal(true)}
+                    >
                         <FontAwesome
                             icon={faEdit}
                             size={theme.sizes.h4}
-                            style={{ padding: theme.sizes.base / 2 }}
                         />
                     </Button>
 
-                    <Button color={'transparent'} onPress={() => setShowTagsModal(true)}>
+                    <Button
+                        color={'transparent'}
+                        style={{ padding: theme.sizes.base / 2 }}
+                        onPress={() => setShowTagsModal(true)}
+                    >
                         <FontAwesome
                             icon={faTags}
                             size={theme.sizes.h4}
-                            style={{ padding: theme.sizes.base / 2 }}
                         />
                     </Button>
                 </Block>
@@ -114,11 +120,11 @@ const Content = () => {
 
     function renderHome() {
         return (
-            <Block row flex={-1} style={{ paddingLeft: theme.sizes.padding / 2 }}>
+            <Block style={{ paddingLeft: theme.sizes.padding / 2 }}>
                 <Button color={'transparent'} flex={-1} onPress={() => history.push('/home')}>
                     <FontAwesome
                         icon={faChevronLeft}
-                        color={theme.colors.gray2}
+                        color={theme.colors.gray}
                     />
                 </Button>
             </Block>
@@ -180,29 +186,39 @@ const Content = () => {
 
     return (
         content.loading ? (
-            <Spinner middle center gray text={'Loading content...'}/>
+            <Spinner middle center color={'gray'} text={'Loading content...'}/>
         ) : (
             <Block middle>
+                {Platform.OS !== 'web' ? renderHome() : null}
                 <ScrollView showsVerticalScrollIndicator={false}>
                     <Block style={styles.mainContainer}>
-                        {Platform.OS !== 'web' ? renderHome() : null}
 
-                        <Modal visible={showEditModal} style={{ content: { top: 80, bottom: 'none' }}}>
+                        <Modal
+                            visible={showEditModal}
+                            style={{ content: { top: 80, bottom: 'none' }}}
+                            animationType={'fade'}
+                            transparent
+                        >
                             <TitleForm setShowModal={setShowEditModal} title={contentInfo._title} index={contentId - 1}/>
                         </Modal>
-                        <Modal visible={showTagsModal} style={{ content: { top: 80, bottom: 'none' }}}>
+                        <Modal
+                            visible={showTagsModal}
+                            style={{ content: { top: 80, bottom: 'none' }}}
+                            animationType={'fade'}
+                            transparent
+                        >
                             <TagsForm setShowModal={setShowTagsModal} tags={tags} index={contentId - 1}/>
                         </Modal>
                         
                         {renderHeader()}
                         {renderContent()}
                         {renderTags()}
-                        <Block margin={[0, theme.sizes.base]} style={styles.container}>
-                            <Block padding={theme.sizes.padding} flex={-1}>
-                                <Block row space='between'>
-                                    <Text bold>IPFS Hash: </Text>
-                                    <Text light gray numberOfLine={1}>{contentInfo._ipfsHash}</Text>
-                                    <Copy content={contentInfo._ipfsHash} />
+                        <Block style={styles.container}>
+                            <Block padding={[theme.sizes.padding, 0]}>
+                                <Block row>
+                                    <Text bold style={{ paddingRight: theme.sizes.padding }}>IPFS Hash: </Text>
+                                    <Text light gray center numberOfLines={1} style={{ flex: 1 }}>{contentInfo._ipfsHash}</Text>
+                                    <Copy content={contentInfo._ipfsHash}/>
                                 </Block>
                             </Block>
                         </Block>
@@ -218,17 +234,18 @@ export default Content;
 
 const styles = StyleSheet.create({
     mainContainer: {
-        maxWidth: theme.sizes.maxWidth * 1.5,
-        minWidth: theme.sizes.minWidth * 3,
+        maxWidth: theme.sizes.maxWidth,
         borderColor: theme.colors.gray2,
         borderWidth: StyleSheet.hairlineWidth,
         marginVertical: theme.sizes.base,
+        paddingHorizontal: theme.sizes.padding,
         alignSelf: 'center',
         backgroundColor: theme.colors.white,
         flexShrink: 0,
         flex: -1,
         overflow: 'hidden',
-        borderRadius: theme.sizes.borderRadius
+        borderRadius: theme.sizes.borderRadius,
+        width: '100%',
     },
     container: {
         borderTopColor: theme.colors.gray2,

@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import { drizzleReactHooks } from '@drizzle/react-plugin';
 
+import { alert } from '../utils/Alert';
+
 import { DEFAULT_GAS } from '../utils/connector';
 import { resolveAddress } from '../utils/ens';
 import { txHandler } from '../utils/errorHandler';
@@ -31,6 +33,10 @@ const SubmitEdit = (props) => {
         const editTx = txHandler('edit', editTitle.TXObjects);
         if (editTx.errors) {
             // alert
+            alert({
+                content: editTx.errors,
+                duration: 3000,
+            })
         }
     }, [editTitleStatus]);
 

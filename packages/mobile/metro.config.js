@@ -1,13 +1,13 @@
-/**
- * Metro configuration for React Native
- * https://github.com/facebook/react-native
- *
- * @format
- */
+// /**
+//  * Metro configuration for React Native
+//  * https://github.com/facebook/react-native
+//  *
+//  * @format
+//  */
 const path = require('path')
 const nodeLibs = require("node-libs-react-native");
 nodeLibs.vm = require.resolve("vm-browserify");
-nodeLibs.crypto = require.resolve("crypto-browserify");
+nodeLibs.crypto = require.resolve("react-native-crypto");
 nodeLibs.stream = require.resolve("stream-browserify");
 nodeLibs.zlib = require.resolve("zlib-browserify");
 

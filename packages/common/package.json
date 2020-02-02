@@ -3,7 +3,6 @@
   "version": "0.0.1",
   "private": true,
   "dependencies": {
-    "@drizzle/react-components": "^1.5.1",
     "@drizzle/react-plugin": "^1.5.1",
     "@drizzle/store": "^1.5.1",
     "@fortawesome/fontawesome-svg-core": "^1.2.26",
@@ -15,6 +14,7 @@
     "ethereum-ens": "^0.7.8",
     "immer": "^5.1.0",
     "ipfs": "^0.40.0",
+    "web3": "1.0.0-beta.34",
     "moment": "^2.24.0",
     "react-modal": "^3.11.1",
     "react-native-flash-message": "^0.1.15",

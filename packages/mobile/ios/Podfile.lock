@@ -186,8 +186,6 @@ PODS:
     - React
   - react-native-randombytes (3.5.3):
     - React
-  - react-native-udp (2.7.0):
-    - React
   - react-native-video (5.0.2):
     - React
     - react-native-video/Video (= 5.0.2)
@@ -228,17 +226,13 @@ PODS:
     - React-cxxreact (= 0.61.5)
     - React-jsi (= 0.61.5)
     - ReactCommon/jscallinvoker (= 0.61.5)
+  - rn-fetch-blob (0.12.0):
+    - React-Core
   - RNCAsyncStorage (1.7.1):
     - React
   - RNGestureHandler (1.5.2):
     - React
-  - RNOS (1.2.6):
-    - React
-  - RNPermissions (2.0.9):
-    - React
   - RNSVG (11.0.1):
-    - React
-  - TcpSockets (3.3.2):
     - React
   - Yoga (1.14.0)
 
@@ -261,7 +255,6 @@ DEPENDENCIES:
   - React-jsinspector (from `../../../node_modules/react-native/ReactCommon/jsinspector`)
   - react-native-image-picker (from `../../../node_modules/react-native-image-picker`)
   - react-native-randombytes (from `../../../node_modules/react-native-randombytes`)
-  - react-native-udp (from `../../../node_modules/react-native-udp`)
   - react-native-video (from `../../../node_modules/react-native-video`)
   - React-RCTActionSheet (from `../../../node_modules/react-native/Libraries/ActionSheetIOS`)
   - React-RCTAnimation (from `../../../node_modules/react-native/Libraries/NativeAnimation`)
@@ -274,12 +267,10 @@ DEPENDENCIES:
   - React-RCTVibration (from `../../../node_modules/react-native/Libraries/Vibration`)
   - ReactCommon/jscallinvoker (from `../../../node_modules/react-native/ReactCommon`)
   - ReactCommon/turbomodule/core (from `../../../node_modules/react-native/ReactCommon`)
+  - rn-fetch-blob (from `../../../node_modules/rn-fetch-blob`)
   - "RNCAsyncStorage (from `../../../node_modules/@react-native-community/async-storage`)"
   - RNGestureHandler (from `../../../node_modules/react-native-gesture-handler`)
-  - RNOS (from `../../../node_modules/react-native-os`)
-  - RNPermissions (from `../../../node_modules/react-native-permissions`)
   - RNSVG (from `../../../node_modules/react-native-svg`)
-  - TcpSockets (from `../../../node_modules/react-native-tcp`)
   - Yoga (from `../../../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -319,8 +310,6 @@ EXTERNAL SOURCES:
     :path: "../../../node_modules/react-native-image-picker"
   react-native-randombytes:
     :path: "../../../node_modules/react-native-randombytes"
-  react-native-udp:
-    :path: "../../../node_modules/react-native-udp"
   react-native-video:
     :path: "../../../node_modules/react-native-video"
   React-RCTActionSheet:
@@ -343,18 +332,14 @@ EXTERNAL SOURCES:
     :path: "../../../node_modules/react-native/Libraries/Vibration"
   ReactCommon:
     :path: "../../../node_modules/react-native/ReactCommon"
+  rn-fetch-blob:
+    :path: "../../../node_modules/rn-fetch-blob"
   RNCAsyncStorage:
     :path: "../../../node_modules/@react-native-community/async-storage"
   RNGestureHandler:
     :path: "../../../node_modules/react-native-gesture-handler"
-  RNOS:
-    :path: "../../../node_modules/react-native-os"
-  RNPermissions:
-    :path: "../../../node_modules/react-native-permissions"
   RNSVG:
     :path: "../../../node_modules/react-native-svg"
-  TcpSockets:
-    :path: "../../../node_modules/react-native-tcp"
   Yoga:
     :path: "../../../node_modules/react-native/ReactCommon/yoga"
 
@@ -376,7 +361,6 @@ SPEC CHECKSUMS:
   React-jsinspector: fa0ecc501688c3c4c34f28834a76302233e29dc0
   react-native-image-picker: 5f9eabde109955b2faf6ef5d5114a49a8ff45ded
   react-native-randombytes: 3638d24759d67c68f6ccba60c52a7a8a8faa6a23
-  react-native-udp: ff9d13e523f2b58e6bc5d4d32321ac60671b5dc9
   react-native-video: d01ed7ff1e38fa7dcc6c15c94cf505e661b7bfd0
   React-RCTActionSheet: 600b4d10e3aea0913b5a92256d2719c0cdd26d76
   React-RCTAnimation: 791a87558389c80908ed06cc5dfc5e7920dfa360
@@ -388,12 +372,10 @@ SPEC CHECKSUMS:
   React-RCTText: 9ccc88273e9a3aacff5094d2175a605efa854dbe
   React-RCTVibration: a49a1f42bf8f5acf1c3e297097517c6b3af377ad
   ReactCommon: 198c7c8d3591f975e5431bec1b0b3b581aa1c5dd
+  rn-fetch-blob: f065bb7ab7fb48dd002629f8bdcb0336602d3cba
   RNCAsyncStorage: 44395cb9c7c1523104c2b499eb426ef7aff82bca
   RNGestureHandler: 946a7691e41df61e2c4b1884deab41a4cdc3afff
-  RNOS: 6f2f9a70895bbbfbdad7196abd952e7b01d45027
-  RNPermissions: 2f74237e97b08beda01e914301e12524ddddf5b8
   RNSVG: 67f1f12dae2cef6ed59a42cae74a6b8f5a9e7b46
-  TcpSockets: 14306fb79f9750ea7d2ddd02d8bed182abb01797
   Yoga: f2a7cd4280bfe2cca5a7aed98ba0eb3d1310f18b
 
 PODFILE CHECKSUM: f9c675f22866171c23be87f7b59a93d35d5009bf

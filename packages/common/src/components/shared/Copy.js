@@ -15,7 +15,7 @@ const Copy = (props) => {
     }
 
     return (
-        <Button middle right flex={-1} style={styles.copy} onPress={() => copyString()} {...props}>
+        <Button middle style={styles.copy} onPress={() => copyString()} {...props}>
             <FontAwesome
                 icon={faCopy}
                 color={theme.colors.gray}

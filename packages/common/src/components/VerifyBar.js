@@ -41,7 +41,7 @@ const VerifyBar = () => {
                 onChangeText={text => setHashString(text)}
                 value={hashString}
                 clearButtonMode="while-editing"
-                returnKeyType="verify"
+                returnKeyType="search"
                 onSubmitEditing={() => handleSearchSubmit(hashString)}
                 onRightPress={() => isEditing ? handleSearchSubmit(hashString) : null}
                 rightStyle={styles.verifyRight}
@@ -50,12 +50,13 @@ const VerifyBar = () => {
                         <FontAwesome
                             icon={faCertificate}
                             color={theme.colors.gray2}
-                            style={{ fontSize: theme.sizes.base * 1.2 }}
+                            size={theme.sizes.base * 1.2}
                         />
                         <FontAwesome
                             icon={faCheck}
-                            style={{ position: 'absolute', fontSize: theme.sizes.base * 0.6 }}
+                            style={{ position: 'absolute' }}
                             color={theme.colors.white}
+                            size={theme.sizes.base * 0.6}
                         />
                     </Block>
                 }

@@ -18,8 +18,7 @@ function Verify() {
 
     const queryString = location.search.replace('?', '');
     const [ searchString, setSearchString ] = useState(queryString);
-    
-    
+       
     const proof = useCacheCall('ProofOfExistence', 'verifyDocument', queryString);
 
     function getFormattedDate(timestamp) {
@@ -83,7 +82,7 @@ function Verify() {
 
     function renderVerifyBar() {
         return (
-            <Block middle padding={[0, theme.sizes.base]}>
+            <Block middle padding={[0, theme.sizes.padding, theme.sizes.padding]}>
                 <Input
                     placeholder="Verify an IPFS Hash..."
                     placeholderTextColor={theme.colors.gray2}
@@ -91,7 +90,7 @@ function Verify() {
                     onChangeText={text => setSearchString(text)}
                     value={searchString}
                     clearButtonMode="while-editing"
-                    returnKeyType="verify"
+                    returnKeyType="search"
                     onSubmitEditing={() => history.push(`/verify?${searchString}`)}
                     onRightPress={() => searchString ? history.push(`/verify?${searchString}`) : null}
                     rightStyle={styles.verifyRight}
@@ -100,12 +99,13 @@ function Verify() {
                             <FontAwesome
                                 icon={faCertificate}
                                 color={theme.colors.gray2}
-                                style={{ fontSize: theme.sizes.base * 1.2 }}
+                                size={theme.sizes.base * 1.2}
                             />
                             <FontAwesome
                                 icon={faCheck}
-                                style={{ position: 'absolute', fontSize: theme.sizes.base * 0.6 }}
+                                style={{ position: 'absolute'}}
                                 color={theme.colors.white}
+                                size={theme.sizes.base * 0.6}
                             />
                         </Block>
                     }
@@ -144,6 +144,7 @@ const styles = StyleSheet.create({
         borderColor: 'rgba(142, 142, 147, 0.06)',
         paddingLeft: theme.sizes.base / 1.333,
         paddingRight: theme.sizes.base * 1.5,
+        marginRight: theme.sizes.base,
     },
     container: {
         padding: theme.sizes.padding,
@@ -159,7 +160,7 @@ const styles = StyleSheet.create({
     },
     verifyIcon: {
         position: 'absolute',
-        right: theme.sizes.base / 1.333,
+        right: theme.sizes.base * 1.33,
     },
     back: {
         height: theme.sizes.base,

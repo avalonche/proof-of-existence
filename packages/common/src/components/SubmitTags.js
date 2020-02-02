@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import { drizzleReactHooks } from '@drizzle/react-plugin';
 
+import { alert } from '../utils/Alert';
+
 import { DEFAULT_GAS } from '../utils/connector';
 import { resolveAddress } from '../utils/ens';
 import { txHandler } from '../utils/errorHandler';
@@ -26,8 +28,6 @@ const SubmitTags = (props) => {
         tagsToRemove.forEach(async(tag) =>
             removeTag.send(index, tag, { gas: DEFAULT_GAS, from: await resolveAddress(drizzleState.account) }));
 
-        addTags();
-        removeTags()
         setShowModal(false);
     }, []);
 
@@ -53,6 +53,9 @@ const SubmitTags = (props) => {
         // alerts
         const addTagErrors = getErrors(addTagTx, tagsToAdd);
         const removeTagErrors = getErrors(removeTagTx, tagsToRemove);
+
+        addTagErrors ? alert({ content: addTagErrors }) : null;
+        removeTagErrors ? alert({ content: removeTagErrors }) : null;
     }, [addTagTx.join(','), removeTagTx.join(',')]);
 
     return (

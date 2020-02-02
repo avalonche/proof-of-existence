@@ -17,8 +17,9 @@ const TagsForm = (props) => {
 
     function addTag() {
         const currentErrors = {};
+        const tag = editingTag.replace(/\s/g, '')
 
-        if (!editingTag) {
+        if (!tag) {
             currentErrors.tags = { message: "Tag must not be empty" };
         }
 
@@ -27,7 +28,7 @@ const TagsForm = (props) => {
         }
 
         if (Object.keys(currentErrors).length === 0) {
-            setTags(tags.concat([editingTag]));
+            setTags(tags.concat([tag]));
         }
 
         setEditingTag('');
@@ -55,7 +56,7 @@ const TagsForm = (props) => {
         ));
 
         return (
-            <Block row wrap>
+            <Block flex={-1} row wrap>
                 {tagButtons}
             </Block>
         );
@@ -72,8 +73,8 @@ const TagsForm = (props) => {
                 setShowModal={setShowModal}
             />
         ) : (
-            <KeyboardAvoidingView behavior={'padding'}>
-                <Block flex={-1} padding={[theme.sizes.padding, theme.sizes.padding, 0]}>
+            <KeyboardAvoidingView behavior={'height'} style={styles.container}>
+                <Block flex={-1} padding={[theme.sizes.padding, theme.sizes.padding, 0]} color={'white'}>
                     {renderTags()}
                     <Input
                         label={'Press space to add a tag'}
@@ -91,8 +92,7 @@ const TagsForm = (props) => {
                         clearButtonMode={'while-editing'}
                         currValue={tags.length}
                         value={editingTag}
-                        onKeyPress={e => e.nativeEvent.key === ' ' ? addTag() : null}
-                        onChangeText={text => setEditingTag(text.replace(/\s/g, ''))}
+                        onChangeText={text => text.slice(-1) === ' ' ? addTag() : setEditingTag(text)}
                         onSubmitEditing={addTag}
                         onRightPress={addTag}
                         rightStyle={styles.addTag}
@@ -104,7 +104,7 @@ const TagsForm = (props) => {
                                     style={{ fontSize: theme.sizes.caption }}
                                 /> : null
                         }
-                        leftStyl={{ backgroundColor: 'transparent' }}
+                        leftStyle={{ backgroundColor: 'transparent' }}
                         leftLabel={
                             <FontAwesome
                                 icon={faTags}
@@ -112,11 +112,11 @@ const TagsForm = (props) => {
                             />
                         }
                     />
-                    <Block row space='between' style={{ paddingTop: theme.sizes.padding }}>
+                    <Block flex={-1} row space='between' style={{ paddingTop: theme.sizes.padding }}>
                         <Button onPress={() => setShowModal(false)}>
                             <Text gray style={{ textDecorationLine: 'underline' }}>Cancel</Text>
                         </Button>
-                        <Button onPress={() => setSubmitted(true)} color={'primary'} style={{ paddingHorizontal: theme.sizes.padding}}>
+                        <Button onPress={() => setSubmitted(true)} color={'primary'} style={styles.save}>
                             <Text white bold>Save</Text>
                         </Button>
                     </Block>
@@ -129,6 +129,11 @@ const TagsForm = (props) => {
 export default TagsForm;
 
 const styles = StyleSheet.create({
+    container: {
+        justifyContent: 'center',
+        backgroundColor: theme.colors.overlay,
+        flex: 1,
+    },
     input: {
         borderRadius: 0,
         borderWidth: 0,
@@ -163,7 +168,11 @@ const styles = StyleSheet.create({
         width: 'auto',
         paddingLeft: theme.sizes.base / 3,
         backgroundColor: 'transparent'
-    },   
+    },
+    save: {
+        paddingHorizontal: theme.sizes.padding,
+        marginBottom: theme.sizes.base,
+    },
     hasErrors: {
         borderBottomColor: theme.colors.accent,
     },

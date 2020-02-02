@@ -1,4 +1,5 @@
-import { call, put, all, fork, takeLatest } from 'redux-saga/effects';
+import { call, put, all, takeLatest } from 'redux-saga/effects';
+import { Platform } from 'react-native';
 import ipfs from '../../utils/ipfs';
 import { getFileBuffer } from '../../utils/Uploader';
 
@@ -50,8 +51,8 @@ function* fetchAll(action) {
 
 function* uploadToIpfs() {
     try {
-        const file = yield call(getFileBuffer);;
-        const result = yield call(ipfs.add, file);
+        const file = yield call(getFileBuffer);
+        const result = Platform.OS === 'web' ? yield call(ipfs.add, file) : [{hash: JSON.parse(file.data).Hash}];
         yield put({type: UPLOAD_SUCCESS, result: result});
     } catch(e) {
         yield put({type: UPLOAD_FAIL, message: e.message});

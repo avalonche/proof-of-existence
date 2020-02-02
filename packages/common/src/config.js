@@ -25,11 +25,11 @@ export const deployConfig = {
     contracts: [
         {
             name: "ProofOfExistence",
-            address: "0x4Bae726c6BED908AFBdD854106BA5350217184f8",
+            address: "0x902c83B540E648507FB865045a749A2a0917e8f1",
         },
         {
             name: "DocumentInfo",
-            address: "0x4Bae726c6BED908AFBdD854106BA5350217184f8"
+            address: "0x3d77fc733d67D4CbB12657750c829c0ea747DBC4"
         },
     ]
 }

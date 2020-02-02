@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, ScrollView } from 'react-native';
+import { useDispatch } from 'react-redux';
 import { drizzleReactHooks } from '@drizzle/react-plugin';
+import { LOG_OUT } from '../redux/actionTypes';
 
 import { getCurrentProvider } from '../utils/connector';
 import { txHandler } from '../utils/errorHandler';
@@ -32,6 +34,8 @@ export default function Account() {
     const [ showEmergencyDialog, setShowEmergencyDialog ] = useState(false);
     const [ loading, setLoading ] = useState(false);
 
+    const dispatch = useDispatch();
+
     useEffect(() => {
       if (typeof isEmergency !== 'undefined') {
         setPaused(isEmergency);
@@ -49,14 +53,14 @@ export default function Account() {
     useEffect(() => {
       const { errors } = txHandler('pause', pauseTx);
       // alert
-      errors.pause ? alert({content: 'Error setting contract in emergency'}) : setPaused(true);
+      errors.pause ? alert({ content: 'Error setting contract in emergency' }) : setPaused(true);
       setLoading(false);
     }, [pauseStatus]);
 
     useEffect(() => {
       const { errors } = txHandler('unpause', unpauseTx);
       // alert
-      errors.unpause ? alert({content: 'Error unsetting contract in emergency'}) : setPaused(false);
+      errors.unpause ? alert({ content: 'Error unsetting contract in emergency' }) : setPaused(false);
       setLoading(false);
     }, [unpauseStatus]);
 
@@ -96,11 +100,11 @@ export default function Account() {
       const address = drizzleState.account;
       const balance = web3.utils.fromWei(drizzleState.accountBalances[address], 'finney');
       return (
-        <Block center style={styles.account}>
+        <Block style={styles.account}>
 
           <Block row center style={styles.body}>
             <Block row flex={-1} style={{flexShrink: 0}}>
-              <Block center middle style={styles.icon}>
+              <Block flex={-1} center middle style={styles.icon}>
                 <FontAwesome
                   icon={faEthereum}
                   color={theme.colors.black}
@@ -110,21 +114,21 @@ export default function Account() {
             </Block>
             
             <Block row middle>
-              <Text light gray numberOfLines={1}>{address}</Text>
+              <Text light gray center numberOfLines={1} style={{ flex: 1 }}>{address}</Text>
+              <Copy content={address}/>
             </Block>
 
-            <Copy content={address}/>
+
           </Block>
 
           <Divider flex={false} style={{width: '100%'}}/>
 
           <Block row center style={styles.body}>
-            <Block row flex={-1} style={{flexShrink: 0}}>
-              <Block center middle style={styles.icon}>
+            <Block row flex={-1} style={{ flexShrink: 0 }}>
+              <Block center middle flex={-1} style={styles.icon}>
                 <FontAwesome
                   icon={faWallet}
                   color={theme.colors.black}
-                  size='1x'
                 />
               </Block>
               <Text black style={{marginRight: theme.sizes.padding}}>Balance</Text>
@@ -153,15 +157,16 @@ export default function Account() {
             setLoading={setLoading}
           />
           <ScrollView showsVerticalScrollIndicator={false}>
-            <Block center>
-              {renderAccount()}
-              {isOwner ? renderToggle() : null}
-              <Block style={styles.logout}>
-                <Button shadow>
-                  <Text center h2 light>Log Out</Text>
-                </Button>
+            <Block center space='between'>
+                {renderAccount()}
+                {isOwner ? renderToggle() : null}
+
+                <Block style={styles.logout}>
+                  <Button shadow onPress={() => dispatch({ type: LOG_OUT })}>
+                    <Text center h2 light>Log Out</Text>
+                  </Button>
+                </Block>
               </Block>
-            </Block>
           </ScrollView>
         </Block>
       )
@@ -178,12 +183,14 @@ const styles = StyleSheet.create({
   },
   account: {
     width: '100%',
+    paddingRight: theme.sizes.base * 2,
     maxWidth: theme.sizes.maxWidth,
     minWidth: theme.sizes.minWdith,
     margin: theme.sizes.base * 2,
   },
   toggle: {
     margin: theme.sizes.base,
+    paddingHorizontal: theme.sizes.padding,
     width: '100%',
     maxWidth: theme.sizes.maxWidth,
     minWidth: theme.sizes.minWdith,
@@ -196,7 +203,6 @@ const styles = StyleSheet.create({
   },
   logout: {
     marginVertical: theme.sizes.base * 2,
-    paddingHorizontal: theme.sizes.padding,
     width: '100%',
     height: '100%',
     maxWidth: theme.sizes.maxWidth,

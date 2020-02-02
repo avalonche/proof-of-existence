@@ -8,9 +8,9 @@ import {
     GET_ONE_CONTENT,
     GET_ONE_CONTENT_SUCCESS,
     GET_ONE_CONTENT_FAIL,
+    LOG_OUT,
 } from '../actionTypes';
 import produce from 'immer';
-import { faBreadSlice } from '@fortawesome/free-solid-svg-icons';
 
 const initialState = {
     upload: { status: '', value: null, error: null},
@@ -72,6 +72,9 @@ const contentReducer = (state = initialState, action) =>
                     filePreview: {}
                 }
                 break;
+            case LOG_OUT:
+                draft = initialState;
+                break; 
             default:
                 return draft
         }
