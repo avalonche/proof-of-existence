@@ -19,8 +19,8 @@ const renderWarning = (content) => {
         color={theme.colors.warning}
         style={{paddingRight: theme.sizes.base}}
         size={theme.sizes.base}
-    />
-    <Text>{content}</Text>
+      />
+      <Text>{content}</Text>
     </Block>
   )
 }

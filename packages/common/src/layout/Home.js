@@ -46,6 +46,16 @@ const Home = () => {
     const filePreviews = content.filePreviews
     const mainContent = filePreviews && filePreviews.length > 0 ? filePreviews[0] : null;
 
+    if (content.error) {
+      return (
+        <Block middle center padding={theme.sizes.padding}>
+          <Text gray light>
+            {content.error}
+          </Text>
+        </Block>
+      );
+    }
+
     return (
       mainContent ? (
         <Block margin={[theme.sizes.base, 0]}>
@@ -69,7 +79,7 @@ const Home = () => {
       ) : (
         <Block middle center padding={theme.sizes.padding}>
           <Text gray light>
-            No Uploads Yet
+            No Uploads Found.
           </Text>
         </Block>
       )

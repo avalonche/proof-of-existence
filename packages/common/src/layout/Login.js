@@ -45,10 +45,8 @@ class Login extends Component {
     
     setProvider(provider);
     const web3 = getWeb3(provider);
-    console.log('his')
     if (web3) {
-      const drizzleOptions = configureOptions(web3);
-      console.log(drizzleOptions);
+      const drizzleOptions = configureOptions(provider);
       this.setState({drizzle: new Drizzle(drizzleOptions, store)});
     }
   }
@@ -102,7 +100,7 @@ class Login extends Component {
   
   render() {
     const { drizzle, loggedIn } = this.state;
-    const { web3Status, drizzleStatus } = this.props; 
+    const { web3Status, drizzleStatus } = this.props;
 
     return (
       // Logged in if accounts are fetched

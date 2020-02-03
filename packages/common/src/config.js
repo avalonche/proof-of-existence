@@ -20,7 +20,7 @@ export default drizzleOptions;
 
 
 export const deployConfig = {
-    localDeployment: true,
+    localDeployment: false,
     useDeployedAdresses: true,
     contracts: [
         {

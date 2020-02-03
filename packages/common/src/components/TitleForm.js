@@ -18,8 +18,8 @@ const TitleForm = (props) => {
     // use effect to create alert notifications for upload and tx errors
     useEffect(() => {
         if (Object.keys(errors).length !== 0 && !errors.title) {
+            setShowModal(false)
             Object.keys(errors).forEach((key) => {
-                console.log(errors)
                 alert({
                     content: errors[key],
                     duration: 3000, 

@@ -3,6 +3,11 @@ import UportConnect, { checkInstalled } from './UportConnect';
 import drizzleOptions, { deployConfig } from '../config';
 import { alert } from './Alert';
 
+const abis = [
+    require('../contracts/ProofOfExistence.json').abi,
+    require('../contracts/DocumentInfo.json').abi
+]
+
 let web3;
 
 function browserLogin() {
@@ -52,18 +57,18 @@ export function hasWSProvider() {
     return deployConfig.localDeployment;
 }
 
-export function configureOptions(web3) {
-    if (typeof web3 === 'object') {
+export function configureOptions(provider) {
+    if (deployConfig.useDeployedAdresses && !deployConfig.localDeployment) {
+        drizzleOptions.contracts = deployConfig.contracts.map((contractInfo, index) => {
+            const contract = new web3.eth.Contract(abis[index], contractInfo.address);
+            return {
+                contractName: contractInfo.name,
+                web3Contract: contract,
+            }
+        })
+    }
+    if (provider === 'uport') {
         drizzleOptions.web3.customProvider = web3;
-        if (deployConfig.useDeployedAdresses && !deployConfig.localDeployment) {
-            drizzleOptions.contracts = deployConfig.contracts.map((contractInfo, index) => {
-                const contract = new web3.eth.Contract(drizzleOptions.contracts[index], contractInfo.address);
-                return {
-                    contractName: contractInfo.name,
-                    web3Contract: contract,
-                }
-            })
-        }
     }
     return drizzleOptions;
 }

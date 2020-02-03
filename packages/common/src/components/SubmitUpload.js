@@ -113,11 +113,13 @@ const SubmitUpload = (props) => {
                 <Text bold h2>Transaction Success!</Text>
                 
                 <Block space='between' padding={theme.sizes.padding}>
-                    <Text gray bold>Transation Hashes: </Text>
+                    <Text center bold>Transation Hashes: </Text>
                     <Block>
-                        <Text gray light>
-                            {`${txCallback.info}
-                            ${txCallback.hash}`}
+                        <Text gray center light numberOfLines={1}>
+                            {txCallback.info}
+                        </Text>
+                        <Text gray center light numberOfLines={1}>
+                            {txCallback.hash}
                         </Text>
                     </Block>
                 </Block>

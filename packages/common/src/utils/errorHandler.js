@@ -19,12 +19,10 @@ const ipfsHashErrors = [
 // revert, out of gas, block gas limit reached
 // need to retrive error message
 // Error: Returned error: VM Exception while processing transaction: revert This content has previously been uploaded
-function handleErrorMessage(message) {  
+function handleErrorMessage(message) {
     if (message.indexOf(errorString) >= 0) {
         const reason = message.split(errorString)[1].trim();
-        if (!reason) {
-            return 'The hash of your content could not be recorded in the contract'
-        }
+
         if (tagErrors.includes(reason)) {
             return { tags: reason }
         } else if (contentErrors.includes(reason)) {
@@ -33,9 +31,13 @@ function handleErrorMessage(message) {
             return { title: reason }
         } else if (ipfsHashErrors.includes(reason)) {
             return { ipfsHash: reason }
+        } else if (message.indexOf('Pausable: paused') >=0) {
+            return { paused: 'The contract is currently paused. Please contact the contract owner to unpause it'}
         } else {
-            return { error: 'An error occurred while processing your transaction. Please try again.' }
+            return { hash: 'Your content transaction could not be recorded in the contract' }
         }
+    } else {
+        return { error: message }
     }
 }
 
@@ -51,7 +53,7 @@ export function txHandler(key, TXObject, index = 0) {
                 txInfo[key] = tx.receipt.transactionHash;
                 break;
             case 'error':
-                errors = {errors: handleErrorMessage(tx.error.message)};
+                errors = handleErrorMessage(tx.error.message);
                 break;
         }
     }

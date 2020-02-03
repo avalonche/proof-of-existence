@@ -26,17 +26,18 @@ const SubmitEdit = (props) => {
         }
 
         sendEdit();
-        setShowModal(false);
     }, []);
 
     useEffect(() => {
-        const editTx = txHandler('edit', editTitle.TXObjects);
-        if (editTx.errors) {
-            // alert
-            alert({
-                content: editTx.errors,
-                duration: 3000,
-            })
+        const { errors }= txHandler('edit', editTitle.TXObjects);
+        setShowModal(false)
+        if (Object.keys(errors).length !== 0) {
+            Object.keys(errors).forEach((key) => {
+                alert({
+                    content: errors[key],
+                    duration: 3000, 
+                })
+            });
         }
     }, [editTitleStatus]);
 

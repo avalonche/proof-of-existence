@@ -4,15 +4,11 @@ import { drizzleReactHooks } from '@drizzle/react-plugin';
 import { alert } from '../utils/Alert';
 
 import { DEFAULT_GAS } from '../utils/connector';
-import { resolveAddress } from '../utils/ens';
 import { txHandler } from '../utils/errorHandler';
 import { Spinner } from './shared';
 
 const SubmitTags = (props) => {
     const { useCacheSend } = drizzleReactHooks.useDrizzle();
-    const drizzleState = drizzleReactHooks.useDrizzleState(drizzleState => ({
-        account: drizzleState.accounts[0]
-    }));
 
     const { tags, oldTags, index, setShowModal } = props;
 
@@ -23,40 +19,43 @@ const SubmitTags = (props) => {
     const tagsToRemove = oldTags.filter(tag => !tags.includes(tag));
 
     useEffect(() => {
-        tagsToAdd.forEach(async(tag) =>
-            addTag.send(index, tag, { gas: DEFAULT_GAS, from: await resolveAddress(drizzleState.account) }));
+        tagsToAdd.forEach((tag) =>
+            addTag.send(index, tag, { gas: DEFAULT_GAS }));
         tagsToRemove.forEach(async(tag) =>
-            removeTag.send(index, tag, { gas: DEFAULT_GAS, from: await resolveAddress(drizzleState.account) }));
-
-        setShowModal(false);
+            removeTag.send(index, tag, { gas: DEFAULT_GAS }));
     }, []);
 
     const addTagTx = addTag.TXObjects;
     const removeTagTx = removeTag.TXObjects;
 
     useEffect(() => {
-        const getErrors = (txObject, tags) => {
+        const showErrors = (txObject, tags) => {
             if (txObject && txObject.length === tags.length) {
                 let txFinished = true;
                 txObject.forEach(tag => tag ? null : txFinished = false)
 
                 if (txFinished) {
+                    setShowModal(false)
                     for (let i = 0; i < tags.length; i++) {
-                        const errors = txHandler(tags[i], addTagTx, i).errors[tags[i]];
-                        if (errors) {
-                            return errors;
+                        const { errors } = txHandler(tags[i], txObject, i);
+                        if (Object.keys(errors).length !== 0) {
+                            Object.keys(errors).forEach((key) => {
+                                alert({
+                                    content: errors[key],
+                                    duration: 3000, 
+                                })
+                            });
                         }
                     }
                 }
             }
         }
         // alerts
-        const addTagErrors = getErrors(addTagTx, tagsToAdd);
-        const removeTagErrors = getErrors(removeTagTx, tagsToRemove);
-
-        addTagErrors ? alert({ content: addTagErrors }) : null;
-        removeTagErrors ? alert({ content: removeTagErrors }) : null;
+        showErrors(addTagTx, tagsToAdd);
+        showErrors(removeTagTx, tagsToRemove);
     }, [addTagTx.join(','), removeTagTx.join(',')]);
+
+    // console.error(removeTagTx)
 
     return (
         <Spinner middle center color={'gray'} text={'Sending Transaction...'}/>

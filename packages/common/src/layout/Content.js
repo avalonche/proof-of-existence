@@ -40,7 +40,6 @@ const Content = () => {
             if (tagInfo && tagInfo.exists) {
                 tagsRes.push(web3.utils.hexToUtf8(tagInfo.tag));
             }
-            i++;
         }
         return tagsRes;
     });
@@ -215,7 +214,7 @@ const Content = () => {
                         {renderTags()}
                         <Block style={styles.container}>
                             <Block>
-                                <Block row>
+                                <Block row padding={theme.sizes.padding}>
                                     <Text bold style={{ paddingRight: theme.sizes.padding }}>IPFS Hash: </Text>
                                     <Text light gray center numberOfLines={1} style={{ flex: 1 }}>{contentInfo._ipfsHash}</Text>
                                     <Copy content={contentInfo._ipfsHash}/>
@@ -250,6 +249,7 @@ const styles = StyleSheet.create({
     container: {
         borderTopColor: theme.colors.gray2,
         borderTopWidth: StyleSheet.hairlineWidth,
+        flex: -1,
     },
     preview: {
         paddingRight: 0,
