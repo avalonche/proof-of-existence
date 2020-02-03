@@ -8,7 +8,7 @@ const drizzleOptions = {
         fallback: {
             type: "ws",
             // url: "ws://127.0.0.1:8545", // ganache-cli
-            url: "ws://192.168.1.21:9545", // truffle develop
+            url: "ws://127.0.0.1:9545", // truffle develop
         }
     },
     networkWhitelist: [
@@ -20,7 +20,7 @@ export default drizzleOptions;
 
 
 export const deployConfig = {
-    localDeployment: true,
+    localDeployment: false,
     useDeployedAdresses: false,
     contracts: [
         {
