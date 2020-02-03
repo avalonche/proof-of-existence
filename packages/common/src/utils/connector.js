@@ -60,17 +60,21 @@ export function hasWSProvider() {
 export function configureOptions(provider) {
     if (deployConfig.useDeployedAdresses && !deployConfig.localDeployment) {
         drizzleOptions.contracts = deployConfig.contracts.map((contractInfo, index) => {
-            const contract = new web3.eth.Contract(abis[index], contractInfo.address);
+            const options = {
+                gasPrice: DEFAULT_GAS_PRICE
+            }
+            const contract = new web3.eth.Contract(abis[index], contractInfo.address, options);
             return {
                 contractName: contractInfo.name,
                 web3Contract: contract,
             }
         })
     }
-    if (provider === 'uport') {
+    if (provider === 'uport' || provider === 'local') {
         drizzleOptions.web3.customProvider = web3;
     }
     return drizzleOptions;
 }
 
 export const DEFAULT_GAS = 400000;
+export const DEFAULT_GAS_PRICE = '50000000000';

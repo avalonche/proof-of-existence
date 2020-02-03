@@ -103,6 +103,7 @@ const SubmitUpload = (props) => {
     }
 
     if (txCallback.info && txCallback.hash) {
+        console.log(txCallback.info)
         const event = drizzleState.transactions[txCallback.info].receipt.events['DocumentCreated'];
         const index = event.returnValues.documentIndex;
 

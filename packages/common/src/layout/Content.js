@@ -31,12 +31,12 @@ const Content = () => {
     const contentId = parseInt(id);
     const web3 = getCurrentProvider();
 
-    const contentInfo = useCacheCall('DocumentInfo', 'getDocument', contentId - 1);
+    const contentInfo = useCacheCall('DocumentInfo', 'getDocument', String(contentId - 1));
     const documentNum = useCacheCall('DocumentInfo', 'getNumberOfDocuments');
     const tags = useCacheCall(['DocumentInfo'], call => {
         const tagsRes = [];
-        for (let i = 0; call('DocumentInfo', 'validTagIndex', contentId - 1, i); i++) {
-            const tagInfo = call('DocumentInfo', 'getTagByIndex', contentId - 1, i)
+        for (let i = 0; call('DocumentInfo', 'validTagIndex', String(contentId - 1), i); i++) {
+            const tagInfo = call('DocumentInfo', 'getTagByIndex', String(contentId - 1), i)
             if (tagInfo && tagInfo.exists) {
                 tagsRes.push(web3.utils.hexToUtf8(tagInfo.tag));
             }
@@ -134,7 +134,7 @@ const Content = () => {
         const back = () => {
             return (
                 contentId - 1 > 0 ? (
-                    <Button style={[styles.buttons, { left: 20 }]} onPress={(() => history.push(`/content/${previous}`))}>
+                    <Button style={[styles.buttons, { left: 20 }]} onPress={(() => history.push(`/content/${contentId - 1}`))}>
                         <FontAwesome
                             icon={faChevronLeft}
                             color={theme.colors.gray2}
@@ -150,7 +150,7 @@ const Content = () => {
         const forward = () => {
             return (
                 contentId + 1 <= documentNum ? (
-                    <Button style={[styles.buttons, { right: 20 }]} onPress={(() => history.push(`/content/${next}`))}>
+                    <Button style={[styles.buttons, { right: 20 }]} onPress={(() => history.push(`/content/${contentId + 1}`))}>
                         <FontAwesome
                             icon={faChevronRight}
                             color={theme.colors.gray2}

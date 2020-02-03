@@ -26,7 +26,7 @@ This dApp allow users to prove the existence of some data such as a picture, vid
 
 The two contracts are deployed and verified at
 
-* `DocumentInfo.sol`: https://rinkeby.etherscan.io/address/0x3d77fc733d67D4CbB12657750c829c0ea747DBC4
+* `DocumentInfo.sol`: https://rinkeby.etherscan.io/address/0x3985DEfFBb62c4D5a113977384cb2413Cb4EC327
 * `ProofOfExistence.vy`: https://rinkeby.etherscan.io/address/0x902c83B540E648507FB865045a749A2a0917e8f1
 
 Note that ProofOfExistence.vy could not be verified because the compiler version (0.1.0b14) was not available for verification.

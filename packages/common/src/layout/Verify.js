@@ -3,11 +3,11 @@ import { StyleSheet, Platform } from 'react-native';
 import { drizzleReactHooks } from '@drizzle/react-plugin';
 
 import { FontAwesome } from '../utils/FontAwesome';
-import { faCheckCircle, faExclamationCircle, faCheck, faCertificate, faChevronLeft } from '@fortawesome/free-solid-svg-icons';
+import { faCheckCircle, faExclamationCircle, faCheck, faCertificate } from '@fortawesome/free-solid-svg-icons';
 import { useLocation, useHistory } from '../utils/Router';
 
 import moment from 'moment';
-import { Text, Block, Spinner, Button, Input } from '../components/shared';
+import { Text, Block, Spinner, Input } from '../components/shared';
 import { theme } from '../assets/constants';
 
 function Verify() {
@@ -64,16 +64,18 @@ function Verify() {
                 <Text h1 primary bold style={styles.body}>
                     Verified
                 </Text>
-                <Block flex={0.5}>
-                    <Block row flex={-1} space={'between'} padding={theme.sizes.padding / 2}>
+                <Block flex={0.5} style={{width: '100%', paddingRight: theme.sizes.padding}}>
+                    <Block row space={'between'} padding={theme.sizes.padding / 2}>
                         <Text h4 gray bold>Block Number: </Text>
                         <Text h4 gray light>{proof[0]}</Text>
+                    </Block>
+                    <Block row  space={'between'} padding={theme.sizes.padding / 2}>
                         <Text h4 gray bold>Time Uploaded: </Text>
                         <Text h4 gray light>{getFormattedDate(proof[1])}</Text>
                     </Block>
-                    <Block row flex={-1} space={'between'} padding={theme.sizes.padding / 2}>
+                    <Block row space={'between'} padding={theme.sizes.padding / 2}>
                         <Text h4 gray bold>Uploader Address: </Text>
-                        <Text h4 gray light>{proof[2]}</Text>
+                        <Text h4 gray light numberOfLines={1}>{proof[2]}</Text>
                     </Block>
                 </Block>
             </Block>
