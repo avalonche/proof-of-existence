@@ -24,7 +24,7 @@
     "node-libs-react-native": "^1.0.3",
     "process": "^0.11.10",
     "react": "16.9.0",
-    "react-native": "0.61.5",
+    "react-native": "0.62.3",
     "react-native-crypto": "^2.1.0",
     "react-native-image-picker": "^2.2.0",
     "react-native-mime-types": "^2.2.1",

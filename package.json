@@ -12,7 +12,7 @@
     "@openzeppelin/cli": "^2.6.0",
     "@openzeppelin/contracts": "^2.4.0",
     "chai": "^4.2.0",
-    "react-native": "0.61.5",
+    "react-native": "0.62.3",
     "truffle-hdwallet-provider": "^1.0.17",
     "truffle-security": "^1.6.2"
   },
